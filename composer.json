@@ -1,0 +1,47 @@
+{
+	"name": "isotopekit/admin_panel",
+	"description": "Admin Panel",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Vijayant Katyal",
+			"email": "hello@vijayantkatyal.com"
+		}
+	],
+	"repositories": [
+		{
+			"type": "path",
+			"url": "/packages/utility",
+			"options": {
+				"symlink": true
+			}
+		},
+		{
+			"type": "path",
+			"url": "/packages/auth_api",
+			"options": {
+				"symlink": true
+			}
+		}
+	],
+	"require": {
+		"isotopekit/auth_api": "@dev"
+	},
+	"minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"IsotopeKit\\AdminPanel\\": "src/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"IsotopeKit\\AdminPanel\\ServiceProvider"
+			]
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
+}

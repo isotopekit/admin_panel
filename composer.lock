@@ -1,0 +1,97 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0ad01e7c52a49f1fdd8065495a7f3291",
+    "packages": [
+        {
+            "name": "isotopekit/auth_api",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "/packages/auth_api",
+                "reference": "475831e05014e024081bd83faa04c0d35f039e7b"
+            },
+            "require": {
+                "isotopekit/utility": "@dev"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "IsotopeKit\\AuthAPI\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "IsotopeKit\\AuthAPI\\": "src/",
+                    "IsotopeKit\\AuthAPI\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vijayant Katyal",
+                    "email": "hello@vijayantkatyal.com"
+                }
+            ],
+            "description": "Auth API Package",
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
+        },
+        {
+            "name": "isotopekit/utility",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "/packages/utility",
+                "reference": "ce33abd7bbebec9037ab7bb51d1f44a5fafc1b52"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "IsotopeKit\\Utility\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "IsotopeKit\\Utility\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vijayant Katyal",
+                    "email": "hello@vijayantkatyal.com"
+                }
+            ],
+            "description": "Utility Package",
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "isotopekit/auth_api": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
