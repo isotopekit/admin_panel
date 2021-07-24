@@ -1,7 +1,8 @@
 [Done] Admin Login
 > Admin Logout
 
-> Admin routes (+views)
+[Done] Admin routes (+views)
+
 > Users ALL
 > Users ADD
 > Users Edit

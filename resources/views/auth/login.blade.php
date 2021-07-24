@@ -1,4 +1,4 @@
-@extends('admin_panel::_layouts.admin_guest')
+@extends('admin_panel::_layouts.guest')
 
 @section('content')
 	<div class="page page-center">
