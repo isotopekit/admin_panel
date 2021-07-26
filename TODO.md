@@ -5,7 +5,6 @@
 
 [Done] Users ALL
 [Done] Users ADD
-> Datatable
 > Users Edit
 > Users Actions
 
@@ -21,3 +20,4 @@
 > admin panel name and links from config
 > relation b/w tables
 > populate user plan details (users list)
+> User List Datatable

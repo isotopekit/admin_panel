@@ -2,6 +2,12 @@
 
 @section('header')
 
+<style>
+	.table-responsive {
+		overflow-x: visible;
+	}
+</style>
+
 @endsection
 
 @section('content')
@@ -46,7 +52,7 @@
 			<div class="row row-cards">
 				<div class="col-12">
 					<div class="card">
-						<div class="card-body border-bottom py-3">
+						<div class="card-body border-bottom py-3" style="display: none;">
 							<div class="d-flex">
 								<div class="text-muted">
 									Show
@@ -170,7 +176,7 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="card-footer d-flex align-items-center">
+						<div class="card-footer d-flex align-items-center" style="display: none !important;">
 							<p class="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries
 							</p>
 							<ul class="pagination m-0 ms-auto">
