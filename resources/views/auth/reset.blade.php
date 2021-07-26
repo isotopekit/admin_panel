@@ -7,7 +7,7 @@
 	<div class="container-tight py-4">
 		<div class="text-center mb-4">
 			<a href="/" class="h1">
-				IsotopeKit
+				{{ config('isotopekit_admin.app_name') }}
 			</a>
 		</div>
 		<form class="card card-md" action="." method="get">

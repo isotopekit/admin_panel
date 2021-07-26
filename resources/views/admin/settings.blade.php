@@ -369,7 +369,7 @@
 											value="{{ old('unique_name', $settings->unique_name) }}"
 										>
 										<span class="input-group-text">
-											.isotopekit.com
+											.{{ config('isotopekit_admin.domain') }}
 										</span>
 									</div>
 									@if($errors->has('name'))

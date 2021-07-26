@@ -30,7 +30,7 @@
 				</button>
 				<h1 class="navbar-brand navbar-brand-autodark">
 					<a href="/" class="h1">
-						IsotopeKit
+						{{ config('isotopekit_admin.app_name') }}
 					</a>
 				</h1>
 				<div class="navbar-nav flex-row d-lg-none">
@@ -498,16 +498,16 @@
 					<div class="row text-center align-items-center flex-row-reverse">
 						<div class="col-lg-auto ms-lg-auto">
 							<ul class="list-inline list-inline-dots mb-0">
-								<li class="list-inline-item"><a href="#" class="link-secondary">Feedback</a></li>
-								<li class="list-inline-item"><a href="#" class="link-secondary">Support</a></li>
-								<li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">About</a></li>
+								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['feedback'] }}" class="link-secondary">Feedback</a></li>
+								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['support'] }}" class="link-secondary">Support</a></li>
+								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['about'] }}" target="_blank" class="link-secondary" rel="noopener">About</a></li>
 							</ul>
 						</div>
 						<div class="col-12 col-lg-auto mt-3 mt-lg-0">
 							<ul class="list-inline list-inline-dots mb-0">
 								<li class="list-inline-item">
 									&copy; 2021
-									<a href="/" class="link-secondary">IsotopeKit</a>
+									<a href="/" class="link-secondary">{{ config('isotopekit_admin.app_name') }}</a>
 								</li>
 							</ul>
 						</div>

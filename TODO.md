@@ -17,10 +17,11 @@
 [Done] Admin Settings
 [Done] titles for views 
 
+[Done] admin panel name and links from config
+
 [TODO]
 
 > before delete confirm
-> admin panel name and links from config
 > routes based on config
 > 404 error view
 > 500 error view

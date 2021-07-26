@@ -19,6 +19,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
 		if ($this->app->runningInConsole()) {
 			
+			// publish config
+			$this->publishes([
+				__DIR__ . '/../config/config.php' => config_path('isotopekit_admin.php'),
+			], 'config');
+			
 			// publish views
 			$this->publishes([
 				__DIR__ . '/../resources/views' => resource_path('views/vendor/isotopekit/admin_panel')
