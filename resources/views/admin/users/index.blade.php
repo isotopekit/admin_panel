@@ -14,7 +14,7 @@
 					<h2 class="page-title">
 						Users
 					</h2>
-					<div class="text-muted mt-1">413 people</div>
+					<div class="text-muted mt-1">{{ sizeof($users) }} people</div>
 				</div>
 				<!-- Page title actions -->
 				<div class="col-auto ms-auto d-print-none">
@@ -87,304 +87,86 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>
-											<input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select User">
-										</td>
-										<td>
-											<div class="d-flex py-1 align-items-center">
-												<span class="avatar me-2">LM</span>
-												<div class="flex-fill">
-													<div class="font-weight-medium">Lorry Mion</div>
-													<div class="text-muted">
-														<a href="#" class="text-reset">lmiona@livejournal.com</a>
+									@foreach($users as $user)
+										<tr>
+											<td>
+												<input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select User">
+											</td>
+											<td>
+												<div class="d-flex py-1 align-items-center">
+													<span class="avatar me-2">
+														{{ substr($user->first_name, 0, 1) }}{{ substr($user->last_name, 0, 1) }}
+													</span>
+													<div class="flex-fill">
+														<div class="font-weight-medium text-capitalize">{{ $user->first_name }} {{ $user->last_name }}</div>
+														<div class="text-muted">
+															<a href="#" class="text-reset">{{ $user->email }}</a>
+														</div>
 													</div>
 												</div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-blue-lt">Agency</span>
-										</td>
-										<td>
-											<span class="badge bg-success me-1"></span> Active
-										</td>
-										<td>
-											15 Dec 2017
-										</td>
-										<td>
-											<div class="btn-list flex-nowrap">
-												<a href="/user-edit.html" class="btn btn-white">
-													Edit
-												</a>
-												<div class="dropdown">
-													<button class="btn dropdown-toggle align-text-top"
-														data-bs-boundary="viewport"
-														data-bs-toggle="dropdown">Actions</button>
-													<div class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
-																<path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
-															</svg>&nbsp;Access
-														</a>
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="10" y1="14" x2="21" y2="3"></line>
-																<path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
-															</svg>&nbsp;Reset
-														</a>
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="18" y1="6" x2="6" y2="18"></line>
-																<line x1="6" y1="6" x2="18" y2="18"></line>
-															</svg>&nbsp;Disable
-														</a>
-														<a class="dropdown-item text-red" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="4" y1="7" x2="20" y2="7"></line>
-																<line x1="10" y1="11" x2="10" y2="17"></line>
-																<line x1="14" y1="11" x2="14" y2="17"></line>
-																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-															</svg>&nbsp;Delete
-														</a>
+											</td>
+											<td>
+												@if($user->plan_name != null)
+												<span class="badge bg-blue-lt">{{ $user->plan_name }}</span>
+												@endif
+											</td>
+											<td>
+												@if($user->enabled)
+												<span class="badge bg-success me-1"></span> Active
+												@else
+												<span class="badge bg-danger me-1"></span> Disabled
+												@endif
+											</td>
+											<td>
+												{{ $user->created_at }}
+											</td>
+											<td>
+												<div class="btn-list flex-nowrap">
+													<a href="/user-edit.html" class="btn btn-white">
+														Edit
+													</a>
+													<div class="dropdown">
+														<button class="btn dropdown-toggle align-text-top"
+															data-bs-boundary="viewport"
+															data-bs-toggle="dropdown">Actions</button>
+														<div class="dropdown-menu dropdown-menu-end">
+															<a class="dropdown-item" href="#">
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+																	<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+																	<path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+																</svg>&nbsp;Access
+															</a>
+															<a class="dropdown-item" href="#">
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+																	<line x1="10" y1="14" x2="21" y2="3"></line>
+																	<path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
+																</svg>&nbsp;Reset
+															</a>
+															<a class="dropdown-item" href="#">
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+																	<line x1="18" y1="6" x2="6" y2="18"></line>
+																	<line x1="6" y1="6" x2="18" y2="18"></line>
+																</svg>&nbsp;Disable
+															</a>
+															<a class="dropdown-item text-red" href="#">
+																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+																	<line x1="4" y1="7" x2="20" y2="7"></line>
+																	<line x1="10" y1="11" x2="10" y2="17"></line>
+																	<line x1="14" y1="11" x2="14" y2="17"></line>
+																	<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+																	<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+																</svg>&nbsp;Delete
+															</a>
+														</div>
 													</div>
 												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-check-input m-0 align-middle" type="checkbox"
-												aria-label="Select invoice">
-										</td>
-										<td>
-											<div class="d-flex py-1 align-items-center">
-												<span class="avatar me-2">LM</span>
-												<div class="flex-fill">
-													<div class="font-weight-medium">Lorry Mion</div>
-													<div class="text-muted">
-														<a href="#" class="text-reset">lmiona@livejournal.com</a>
-													</div>
-												</div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-blue-lt">Agency</span>
-										</td>
-										<td>
-											<span class="badge bg-success me-1"></span> Active
-										</td>
-										<td>
-											15 Dec 2017
-										</td>
-										<td>
-											<div class="btn-list flex-nowrap">
-												<a href="#" class="btn btn-white">
-													Edit
-												</a>
-												<div class="dropdown">
-													<button class="btn dropdown-toggle align-text-top"
-														data-bs-boundary="viewport"
-														data-bs-toggle="dropdown">Actions</button>
-													<div class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="18" y1="6" x2="6" y2="18"></line>
-																<line x1="6" y1="6" x2="18" y2="18"></line>
-															</svg>&nbsp;Disable
-														</a>
-														<a class="dropdown-item text-red" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="4" y1="7" x2="20" y2="7"></line>
-																<line x1="10" y1="11" x2="10" y2="17"></line>
-																<line x1="14" y1="11" x2="14" y2="17"></line>
-																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-															</svg>&nbsp;Delete
-														</a>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-check-input m-0 align-middle" type="checkbox"
-												aria-label="Select invoice">
-										</td>
-										<td>
-											<div class="d-flex py-1 align-items-center">
-												<span class="avatar me-2">LM</span>
-												<div class="flex-fill">
-													<div class="font-weight-medium">Lorry Mion</div>
-													<div class="text-muted">
-														<a href="#" class="text-reset">lmiona@livejournal.com</a>
-													</div>
-												</div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-blue-lt">Agency</span>
-										</td>
-										<td>
-											<span class="badge bg-success me-1"></span> Active
-										</td>
-										<td>
-											15 Dec 2017
-										</td>
-										<td>
-											<div class="btn-list flex-nowrap">
-												<a href="#" class="btn btn-white">
-													Edit
-												</a>
-												<div class="dropdown">
-													<button class="btn dropdown-toggle align-text-top"
-														data-bs-boundary="viewport"
-														data-bs-toggle="dropdown">Actions</button>
-													<div class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="18" y1="6" x2="6" y2="18"></line>
-																<line x1="6" y1="6" x2="18" y2="18"></line>
-															</svg>&nbsp;Disable
-														</a>
-														<a class="dropdown-item text-red" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="4" y1="7" x2="20" y2="7"></line>
-																<line x1="10" y1="11" x2="10" y2="17"></line>
-																<line x1="14" y1="11" x2="14" y2="17"></line>
-																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-															</svg>&nbsp;Delete
-														</a>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-check-input m-0 align-middle" type="checkbox"
-												aria-label="Select invoice">
-										</td>
-										<td>
-											<div class="d-flex py-1 align-items-center">
-												<span class="avatar me-2">LM</span>
-												<div class="flex-fill">
-													<div class="font-weight-medium">Lorry Mion</div>
-													<div class="text-muted">
-														<a href="#" class="text-reset">lmiona@livejournal.com</a>
-													</div>
-												</div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-blue-lt">Agency</span>
-										</td>
-										<td>
-											<span class="badge bg-success me-1"></span> Active
-										</td>
-										<td>
-											15 Dec 2017
-										</td>
-										<td>
-											<div class="btn-list flex-nowrap">
-												<a href="#" class="btn btn-white">
-													Edit
-												</a>
-												<div class="dropdown">
-													<button class="btn dropdown-toggle align-text-top"
-														data-bs-boundary="viewport"
-														data-bs-toggle="dropdown">Actions</button>
-													<div class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="18" y1="6" x2="6" y2="18"></line>
-																<line x1="6" y1="6" x2="18" y2="18"></line>
-															</svg>&nbsp;Disable
-														</a>
-														<a class="dropdown-item text-red" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="4" y1="7" x2="20" y2="7"></line>
-																<line x1="10" y1="11" x2="10" y2="17"></line>
-																<line x1="14" y1="11" x2="14" y2="17"></line>
-																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-															</svg>&nbsp;Delete
-														</a>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input class="form-check-input m-0 align-middle" type="checkbox"
-												aria-label="Select invoice">
-										</td>
-										<td>
-											<div class="d-flex py-1 align-items-center">
-												<span class="avatar me-2">LM</span>
-												<div class="flex-fill">
-													<div class="font-weight-medium">Lorry Mion</div>
-													<div class="text-muted">
-														<a href="#" class="text-reset">lmiona@livejournal.com</a>
-													</div>
-												</div>
-											</div>
-										</td>
-										<td>
-											<span class="badge bg-blue-lt">Agency</span>
-										</td>
-										<td>
-											<span class="badge bg-success me-1"></span> Active
-										</td>
-										<td>
-											15 Dec 2017
-										</td>
-										<td>
-											<div class="btn-list flex-nowrap">
-												<a href="#" class="btn btn-white">
-													Edit
-												</a>
-												<div class="dropdown">
-													<button class="btn dropdown-toggle align-text-top"
-														data-bs-boundary="viewport"
-														data-bs-toggle="dropdown">Actions</button>
-													<div class="dropdown-menu dropdown-menu-end">
-														<a class="dropdown-item" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="18" y1="6" x2="6" y2="18"></line>
-																<line x1="6" y1="6" x2="18" y2="18"></line>
-															</svg>&nbsp;Disable
-														</a>
-														<a class="dropdown-item text-red" href="#">
-															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-																<line x1="4" y1="7" x2="20" y2="7"></line>
-																<line x1="10" y1="11" x2="10" y2="17"></line>
-																<line x1="14" y1="11" x2="14" y2="17"></line>
-																<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-																<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-															</svg>&nbsp;Delete
-														</a>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
+											</td>
+										</tr>
+									@endforeach
 								</tbody>
 							</table>
 						</div>

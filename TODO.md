@@ -3,8 +3,9 @@
 
 [Done] Admin routes (+views)
 
-> Users ALL
+[Done] Users ALL
 [Done] Users ADD
+> Datatable
 > Users Edit
 > Users Actions
 
@@ -18,3 +19,5 @@
 [Later]
 > before delete confirm
 > admin panel name and links from config
+> relation b/w tables
+> populate user plan details (users list)

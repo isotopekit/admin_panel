@@ -29,7 +29,28 @@ class AdminController extends Controller
 	public function getUsers(Request $request)
 	{
 		$plans = Levels::where('id', '!=', '1')->get();
-		return view('admin_panel::admin.users.index')->with('plans', $plans);
+		$users = User::where('id', '!=', '1')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
+
+		foreach($users as $user)
+		{
+			$user->plan_name = null;
+			// get user level
+			$fetch_roles = User_Role::where('user_id', '=', $user->id)->first();
+			if($fetch_roles)
+			{
+				$get_level_id = json_decode($fetch_roles->levels)[1];
+				$level_info = Levels::where('id', $get_level_id)->first();
+				if($level_info)
+				{
+					$user->plan_name = $level_info->name;
+				}
+			}
+
+		}
+
+		return view('admin_panel::admin.users.index')
+				->with('plans', $plans)
+				->with('users', $users);
 	}
 
 	// add user (post)
