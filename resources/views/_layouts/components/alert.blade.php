@@ -10,11 +10,13 @@
 	</div>
 @endif
 
+<? /*
 @if ($errors->has('general'))
 	<div class="alert alert-important alert-danger">
 		<strong>{{ $errors->first('general') }}</strong>
 	</div>
 @endif
+*/ ?>
 
 @if ($errors->any())
     <div class="alert alert-important alert-warning">

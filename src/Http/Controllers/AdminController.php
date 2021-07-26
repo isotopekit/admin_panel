@@ -214,6 +214,61 @@ class AdminController extends Controller
 		}
 	}
 
+	// change user status
+	public function postChangeUserStatus(Request $request, $id)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'enabled'	=> 'required|boolean'
+			]);
+
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_users_index')->with('status.error', 'Something Went Wrong');
+			}
+
+			User::where('id', $id)->update([
+				'enabled'	=>	$request->input('enabled')
+			]);
+
+			if($request->input('enabled') == true)
+			{
+				return redirect()->route('get_admin_users_index')->with('status.success', 'User now Active.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_users_index')->with('status.error', 'User now Inactive.');
+			}
+
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// delete user (post)
+	public function postDeleteUser(Request $request, $id)
+	{
+		try
+		{
+			User::where('id', $id)->delete();
+			return redirect()->route('get_admin_users_index')->with('status.success', 'User Deleted.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// access user (post)
+	public function postAccessUser(Request $request, $id)
+	{
+		Auth::loginUsingId($id);
+		return redirect('/user/');
+	}
+
 	// domains
 	public function getDomains(Request $request)
 	{

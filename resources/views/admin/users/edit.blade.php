@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<!-- Page title actions -->
-			<div class="col-auto ms-auto d-print-none">
+			<div class="col-auto ms-auto d-print-none" style="display: none;">
 				<div>
 					<a href="#" class="btn btn-outline-success">
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-login" width="24"

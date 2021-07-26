@@ -40,6 +40,14 @@ Route::group(
 
 		// change user password (post)
 		Route::post('/users/change-password/{id}', [AdminController::class, 'postChangeUserPassword'])->name('post_admin_users_password');
+
+		// access user
+		Route::post('/users/access/{id}', [AdminController::class, 'postAccessUser'])->name('post_admin_users_access');
+
+		// user status (post)
+		Route::post('/users/change_status/{id}', [AdminController::class, 'postChangeUserStatus'])->name('post_admin_users_edit_status');
+		// user delete
+		Route::post('/users/delete/{id}', [AdminController::class, 'postDeleteUser'])->name('post_admin_users_delete');
 		
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
@@ -55,9 +63,9 @@ Route::group(
 		Route::get('/plans/edit/{id}', [AdminController::class, 'getEditPlan'])->name('get_admin_plans_edit');
 		Route::post('/plans/edit/{id}', [AdminController::class, 'postEditPlan'])->name('post_admin_plans_edit');
 
-		// plan status
+		// plan status (post)
 		Route::post('/plans/change_status/{id}', [AdminController::class, 'postChangePlanStatus'])->name('post_admin_plans_edit_status');
-		// plan delete
+		// plan delete (post)
 		Route::post('/plans/delete/{id}', [AdminController::class, 'postDeletePlan'])->name('post_admin_plans_delete');
 
 		Route::get('/settings', [AdminController::class, 'getSettings'])->name('get_admin_settings');
