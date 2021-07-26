@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 
+use IsotopeKit\AuthAPI\Models\User;
+use IsotopeKit\AuthAPI\Models\User_Role;
 use IsotopeKit\AuthAPI\Models\Levels;
 
 class AdminController extends Controller
@@ -26,7 +28,58 @@ class AdminController extends Controller
 	// users
 	public function getUsers(Request $request)
 	{
-		return view('admin_panel::admin.users.index');
+		$plans = Levels::where('id', '!=', '1')->get();
+		return view('admin_panel::admin.users.index')->with('plans', $plans);
+	}
+
+	// add user (post)
+	public function postAddUser(Request $request)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'first_name'    =>  'required|string|min:3',
+                'last_name'     =>  'required|string|min:3',
+                'email'         =>  'required|string|email|min:5|max:50|unique:users',
+                'password'      =>  'required|string|min:6|max:20',
+                'plan_id'       =>  'required'
+			]);
+			
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_users_index', ['mode'	=>	'user_add'])->withErrors($isValid)->withInput();
+			}
+
+			$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
+			$random_token = $random_text_generator->get_random_value_in_string(20);
+
+			// create account
+			$user = User::create([
+				'first_name'    =>  $request->input('first_name'),
+				'last_name'     =>  $request->input('last_name'),
+				'email'         =>  $request->input('email'),
+				'password'      =>  bcrypt($request->input('password')),
+				'email_token'   =>  $random_token,
+				'enabled'       =>  true
+			]);
+
+			$plan_id = json_encode($request->input('plan_id'));
+			// save role
+			$save_role = User_Role::create([
+				'user_id'	=>	$user->id,
+				'levels'    => '["1",'.$plan_id.']', // by default user with 'basic' plan
+			]);
+			
+			// $app_library = new \App\Libraries\Utility();
+			// $res = $app_library->send_email_agency_generic($request->input('first_name'), $request->input('email'), $request->input('password'), 0);
+
+			return redirect()->route('get_admin_users_index')->with('status.success', 'User Created.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something went wrong, try again later');
+
+		}
 	}
 
 	// domains

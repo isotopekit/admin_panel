@@ -519,8 +519,25 @@
 	</div>
 
 	<!-- JS files -->
-	<script src="{{ asset('admin_panel/dist/js/tabler.min.js') }}"></script>
-
+	
+	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+	<!-- <script src="{{ asset('admin_panel/dist/js/tabler.min.js') }}"></script> -->
+	<script src="{{ asset('admin_panel/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+	
+	<script>
+		function getUrlVars()
+		{
+			var vars = [], hash;
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++)
+			{
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
+	</script>
 	@yield('footer')
 </body>
 

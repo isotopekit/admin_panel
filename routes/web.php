@@ -26,7 +26,11 @@ Route::group(
 		Route::get('/', [AdminController::class, 'index'])->name('get_admin_index');
 		Route::post('/logout', [auth_api_auth_controller::class, 'postLogout'])->name('post_admin_logout_route');
 
+		// users
 		Route::get('/users', [AdminController::class, 'getUsers'])->name('get_admin_users_index');
+
+		// users/create (post)
+		Route::post('/users/add', [AdminController::class, 'postAddUser'])->name('post_admin_users_add');
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
 		

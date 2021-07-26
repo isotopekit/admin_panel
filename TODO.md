@@ -1,10 +1,10 @@
 [Done] Admin Login
-> Admin Logout
+[Done] Admin Logout
 
 [Done] Admin routes (+views)
 
 > Users ALL
-> Users ADD
+[Done] Users ADD
 > Users Edit
 > Users Actions
 
@@ -14,3 +14,7 @@
 [Done] Plans Actions
 
 > Admin Settings
+
+[Later]
+> before delete confirm
+> admin panel name and links from config

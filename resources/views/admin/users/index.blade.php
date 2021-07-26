@@ -33,6 +33,11 @@
 				</div>
 			</div>
 		</div>
+
+		<br>
+
+		@component('admin_panel::_layouts.components.alert')
+		@endcomponent
 	</div>
 
 	<!-- content -->
@@ -431,38 +436,93 @@
 					<h5 class="modal-title">New User</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<form action="/" method="POST">
+				<form action="{{ route('post_admin_users_add') }}" method="POST">
+					{{ csrf_field() }}
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="mb-3">
 									<label class="form-label">First name</label>
-									<input type="text" class="form-control">
+									<input
+										type="text" name="first_name" required placeholder="First Name"
+										@if($errors->has('first_name'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('first_name') }}"
+									>
+									@if($errors->has('first_name'))
+										<div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="mb-3">
 									<label class="form-label">Last Name</label>
-									<input type="text" class="form-control">
+									<input
+										type="text" name="last_name" required placeholder="Last Name"
+										@if($errors->has('last_name'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('last_name') }}"
+									>
+									@if($errors->has('last_name'))
+										<div class="invalid-feedback">{{ $errors->first('last_name') }}</div>
+									@endif
 								</div>
 							</div>
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label">Email</label>
-							<input type="text" class="form-control" name="example-text-input" placeholder="Your report name">
+							<input type="text" name="email" required placeholder="User Email"
+								@if($errors->has('email'))
+									class="form-control is-invalid"
+								@else
+									class="form-control"
+								@endif
+								value="{{ old('email') }}"
+							>
+							@if($errors->has('email'))
+								<div class="invalid-feedback">{{ $errors->first('email') }}</div>
+							@endif
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label">Password</label>
-							<input type="password" class="form-control" name="example-text-input" placeholder="Your report name">
+							<input
+								type="password" name="password" required placeholder="User Password"
+								@if($errors->has('password'))
+									class="form-control is-invalid"
+								@else
+									class="form-control"
+								@endif
+								value=""
+							>
+							@if($errors->has('password'))
+								<div class="invalid-feedback">{{ $errors->first('password') }}</div>
+							@endif
 						</div>
 
 						<div class="mb-3">
 							<label class="form-label">Plan / Level</label>
-							<select name="" class="form-control" id="">
-								<option value="1">Level 1</option>
+							<select name="plan_id" required id=""
+								@if($errors->has('plan_id'))
+									class="form-control is-invalid"
+								@else
+									class="form-control"
+								@endif
+							>
+								@foreach($plans as $plan)
+									<option value="{{ $plan->id }}">{{ $plan->name }} - ${{ $plan->price }}</option>
+								@endforeach
 							</select>
+							@if($errors->has('plan_id'))
+								<div class="invalid-feedback">{{ $errors->first('plan_id') }}</div>
+							@endif
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -477,5 +537,20 @@
 			</div>
 		</div>
 	</div>
+
+@endsection
+
+@section('footer')
+
+	<script>
+		var _mode = getUrlVars()["mode"];
+		if(_mode == "user_add")
+		{
+			var myModal = new bootstrap.Modal(document.getElementById('modal-new-user'), {
+				keyboard: false
+			})
+			myModal.show();
+		}
+	</script>
 
 @endsection
