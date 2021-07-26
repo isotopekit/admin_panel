@@ -11,6 +11,6 @@
 [Done] Plans ALL
 [Done] Plans ADD
 [Done] Plans Edit
-> Plans Actions
+[Done] Plans Actions
 
 > Admin Settings
