@@ -7,5 +7,7 @@ return [
 		'support'	=>	'https://support.isotopekit.com',
 		'about'		=>	'https://isotopekit.com'
 	],
-	'domain'	=>	'isotopekit.com'
+	'domain'	=>	'isotopekit.com',
+	'route_admin'	=>	'admin',
+	'route_agency'	=>	'agency'
 ];

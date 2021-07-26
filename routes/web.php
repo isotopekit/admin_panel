@@ -8,7 +8,7 @@ use IsotopeKit\AuthAPI\Http\Controllers\AuthController as auth_api_auth_controll
 
 Route::group(
 	[
-		'prefix'		=>	'admin',
+		'prefix'		=>	config('isotopekit_admin.route_admin'),
 		'middleware'	=>	['guest']
 	],
 	function () {
@@ -19,7 +19,7 @@ Route::group(
 
 Route::group(
 	[
-		'prefix'		=>	'admin',
+		'prefix'		=>	config('isotopekit_admin.route_admin'),
 		'middleware'	=>	['admin']
 	],
 	function () {
