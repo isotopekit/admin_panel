@@ -201,6 +201,21 @@ class AdminController extends Controller
 		}
 	}
 
+	// delete plan (post)
+	public function postDeletePlan(Request $request, $id)
+	{
+		try
+		{
+			Levels::where('id', $id)->delete();
+			return redirect()->route('get_admin_plans_index')->with('status.success', 'Plan Deleted.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_plans_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+
 	// settings
 	public function getSettings(Request $request)
 	{
