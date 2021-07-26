@@ -13,7 +13,7 @@
 [Done] Plans Edit
 [Done] Plans Actions
 
-> Admin Settings
+[Done] Admin Settings
 
 [Later]
 > titles for views
@@ -28,3 +28,10 @@
 > cancel link route
 
 > user reset (send email)
+> admin dashboard
+
+> email and domain configuration check
+> domain input check
+
+[Fix]
+> Admin settings menu click offset issue

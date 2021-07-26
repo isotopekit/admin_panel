@@ -67,22 +67,47 @@
 			</div>
 			<div class="col-lg-9 overflow-auto" style="max-height: 70vh;" data-bs-spy="scroll" data-bs-target="#settings-list">
 
+				@component('admin_panel::_layouts.components.alert')
+        		@endcomponent
+
 				<div class="card mb-4" id="general">
 					<div class="card-header">
 						<h3 class="card-title">General</h3>
 					</div>
-					<form action="">
+					<form action="{{ route('post_admin_settings_general') }}" method="post">
+						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Name</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="name"
+										@if($errors->has('name'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('name', $settings->name) }}"
+									/>
+									@if($errors->has('name'))
+										<div class="invalid-feedback">{{ $errors->first('name') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">About</label>
 								<div class="col">
-									<textarea name="" class="form-control" id="" cols="30" rows="4"></textarea>
+									<textarea
+										name="page_description" rows="4"
+										@if($errors->has('page_description'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+									>{{ $settings->page_description }}</textarea>
+									@if($errors->has('page_description'))
+										<div class="invalid-feedback">{{ $errors->first('page_description') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
@@ -100,11 +125,21 @@
 							</div>
 
 							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Theme</label>
+								<div class="col">
+									<select name="theme" required class="form-control">
+										<option  {{ old('theme', $settings->theme) == "blue" ? "selected": "" }} value="blue">Default</option>
+										<option  {{ old('theme', $settings->theme) == "green" ? "selected": "" }} value="green">Green</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Default Language</label>
 								<div class="col">
-									<select name="" id="" class="form-control">
-										<option value="1">English</option>
-										<option value="0">Hindi</option>
+									<select name="language" required class="form-control">
+										<option  {{ old('language', $settings->language) == "en" ? "selected": "" }} value="en">English</option>
+										<option  {{ old('language', $settings->language) == "hi" ? "selected": "" }} value="hi">Hindi</option>
 									</select>
 								</div>
 							</div>
@@ -112,35 +147,68 @@
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Support Email</label>
 								<div class="col">
-									<input type="text" class="form-control" placeholder="">
+									<input
+										type="text" name="support_email"
+										@if($errors->has('support_email'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('support_email', $settings->support_email) }}"
+									/>
+									@if($errors->has('support_email'))
+										<div class="invalid-feedback">{{ $errors->first('support_email') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Support URL</label>
 								<div class="col">
-									<input type="text" class="form-control" placeholder="">
+									<input
+										type="text" name="support_url"
+										@if($errors->has('support_url'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('support_url', $settings->support_url) }}"
+									/>
+									@if($errors->has('support_url'))
+										<div class="invalid-feedback">{{ $errors->first('support_url') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Show Training URL</label>
 								<div class="col">
-									<select name="" id="" class="form-control">
-										<option value="1">Yes</option>
-										<option value="0">No</option>
+									<select name="show_training_url" class="form-control">
+										<option  {{ old('show_training_url', $settings->show_training_url) == 1 ? "selected": "" }} value="1">Yes</option>
+										<option  {{ old('show_training_url', $settings->show_training_url) == 0 ? "selected": "" }} value="0">No</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Training URL</label>
 								<div class="col">
-									<input type="text" class="form-control" placeholder="">
+									<input
+										type="text" name="training_url"
+										@if($errors->has('training_url'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('training_url', $settings->training_url) }}"
+									/>
+									@if($errors->has('training_url'))
+										<div class="invalid-feedback">{{ $errors->first('training_url') }}</div>
+									@endif
 								</div>
 							</div>
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
 								<a href="#" class="btn btn-link">Cancel</a>
-								<a href="#" class="btn btn-success ms-auto">Save Changes</a>
+								<button type="submit" class="btn btn-success ms-auto">Save Changes</button>
 							</div>
 						</div>
 					</form>
@@ -150,48 +218,117 @@
 					<div class="card-header">
 						<h3 class="card-title">Email Setup</h3>
 					</div>
-					<form action="">
+					<form action="{{ route('post_admin_settings_email') }}" method="post">
+						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Host</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="host"
+										@if($errors->has('host'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('host', $settings->host) }}"
+									/>
+									@if($errors->has('host'))
+										<div class="invalid-feedback">{{ $errors->first('host') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Port</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="port"
+										@if($errors->has('port'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('port', $settings->port) }}"
+									/>
+									@if($errors->has('port'))
+										<div class="invalid-feedback">{{ $errors->first('port') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
-								<label for="" class="form-label col-12 col-sm-3 col-form-label">Encryption</label>
+								<label class="form-label col-12 col-sm-3 col-form-label">Encryption</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<select name="encryption" required class="form-control">
+										<option  {{ old('encryption', $settings->encryption) == "tls" ? "selected": "" }} value="tls">TLS</option>
+									</select>
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Username</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="username"
+										@if($errors->has('username'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('username', $settings->username) }}"
+									/>
+									@if($errors->has('username'))
+										<div class="invalid-feedback">{{ $errors->first('username') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Password</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="password"
+										@if($errors->has('password'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('password', $settings->password) }}"
+									/>
+									@if($errors->has('password'))
+										<div class="invalid-feedback">{{ $errors->first('password') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">From Address</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="from_address"
+										@if($errors->has('from_address'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('from_address', $settings->from_address) }}"
+									/>
+									@if($errors->has('from_address'))
+										<div class="invalid-feedback">{{ $errors->first('from_address') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">From Name</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" required name="from_name"
+										@if($errors->has('from_name'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('from_name', $settings->from_name) }}"
+									/>
+									@if($errors->has('from_name'))
+										<div class="invalid-feedback">{{ $errors->first('from_name') }}</div>
+									@endif
 								</div>
 							</div>
 						</div>
@@ -200,7 +337,7 @@
 								<a href="#" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
-									<a href="#" class="btn btn-success">Save Changes</a>
+									<button type="submit" class="btn btn-success">Save Changes</button>
 								</div>
 
 							</div>
@@ -212,7 +349,8 @@
 					<div class="card-header">
 						<h3 class="card-title">Domain Setup</h3>
 					</div>
-					<form action="">
+					<form action="{{ route('post_admin_settings_domain') }}" method="post">
+						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Domain</label>
@@ -221,12 +359,22 @@
 										<span class="input-group-text">
 											https://
 										</span>
-										<input type="text" class="form-control" placeholder="subdomain"
-											autocomplete="off">
+										<input
+											type="text" required name="unique_name" placeholder="subdomain" autocomplete="off"
+											@if($errors->has('unique_name'))
+												class="form-control is-invalid"
+											@else
+												class="form-control"
+											@endif
+											value="{{ old('unique_name', $settings->unique_name) }}"
+										>
 										<span class="input-group-text">
 											.isotopekit.com
 										</span>
 									</div>
+									@if($errors->has('name'))
+										<div class="invalid-feedback">{{ $errors->first('name') }}</div>
+									@endif
 								</div>
 							</div>
 							<div class="alert alert-important alert-info bg-blue-lt">
@@ -248,7 +396,18 @@
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">External URL</label>
 								<div class="col">
-									<input type="text" name="" class="form-control" />
+									<input
+										type="text" name="external_url"
+										@if($errors->has('external_url'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('external_url', $settings->external_url) }}"
+									/>
+									@if($errors->has('external_url'))
+										<div class="invalid-feedback">{{ $errors->first('external_url') }}</div>
+									@endif
 								</div>
 							</div>
 						</div>
@@ -257,7 +416,7 @@
 								<a href="#" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
-									<a href="#" class="btn btn-success">Save Changes</a>
+									<button type="submit" class="btn btn-success">Save Changes</button>
 								</div>
 
 							</div>
@@ -269,7 +428,9 @@
 					<div class="card-header">
 						<h3 class="card-title">Security</h3>
 					</div>
-					<form action="">
+					<form action="{{ route('post_admin_settings_password') }}" method="post">
+						{{ csrf_field() }}
+
 						<div class="card-body">
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Email</label>
@@ -278,17 +439,29 @@
 										value="admin@gmail.com" />
 								</div>
 							</div>
-							<div class="form-group mb-3 row">
+							<!-- <div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Old Password</label>
 								<div class="col">
 									<input type="password" class="form-control" placeholder="Password">
 								</div>
-							</div>
+							</div> -->
 
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">New Password</label>
 								<div class="col">
-									<input type="password" class="form-control" placeholder="Password">
+									<input
+										type="password" name="password" required
+										@if($errors->has('password'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value=""
+										placeholder="Password"
+									/>
+									@if($errors->has('password'))
+										<div class="invalid-feedback">{{ $errors->first('password') }}</div>
+									@endif
 									<small class="form-hint">
 										Your password must be 8-20 characters long, contain letters and numbers, and
 										must not contain
@@ -300,14 +473,25 @@
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Confirm Password</label>
 								<div class="col">
-									<input type="password" class="form-control" placeholder="Password">
+									<input
+										type="password" class="form-control" placeholder="Password" required name="password_confirm"
+										@if($errors->has('password_confirm'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value=""
+									/>
+									@if($errors->has('password_confirm'))
+										<div class="invalid-feedback">{{ $errors->first('password_confirm') }}</div>
+									@endif
 								</div>
 							</div>
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
 								<a href="#" class="btn btn-link">Cancel</a>
-								<a href="#" class="btn btn-success ms-auto">Change Password</a>
+								<button type="submit" class="btn btn-success ms-auto">Change Password</button>
 							</div>
 						</div>
 					</form>

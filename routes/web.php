@@ -68,7 +68,22 @@ Route::group(
 		// plan delete (post)
 		Route::post('/plans/delete/{id}', [AdminController::class, 'postDeletePlan'])->name('post_admin_plans_delete');
 
+		// admin settings
 		Route::get('/settings', [AdminController::class, 'getSettings'])->name('get_admin_settings');
+
+		// admin settings general (post)
+		Route::post('/settings-general', [AdminController::class, 'postSettingsGeneral'])->name('post_admin_settings_general');
+
+		// admin settings email (post)
+		Route::post('/settings-email', [AdminController::class, 'postSettingsEmail'])->name('post_admin_settings_email');
+
+		// admin settings domain (post)
+		Route::post('/settings-domain', [AdminController::class, 'postSettingsDomain'])->name('post_admin_settings_domain');
+
+		// admin settings password (post)
+		Route::post('/settings-password', [AdminController::class, 'postSettingsPassword'])->name('post_admin_settings_password');
+
+
 	}
 );
 

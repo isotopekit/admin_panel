@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use IsotopeKit\AuthAPI\Models\User;
 use IsotopeKit\AuthAPI\Models\User_Role;
 use IsotopeKit\AuthAPI\Models\Levels;
+use IsotopeKit\AuthAPI\Models\Site;
 
 class AdminController extends Controller
 {
@@ -466,7 +467,138 @@ class AdminController extends Controller
 	// settings
 	public function getSettings(Request $request)
 	{
-		return view('admin_panel::admin.settings');
+		$site_settings = Site::first();
+		return view('admin_panel::admin.settings')->with('settings', $site_settings);
+	}
+
+	// admin settings general (post)
+	public function postSettingsGeneral(Request $request)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'name'			=> 'required',
+				'language'		=> 'required',
+				'theme'			=> 'required'
+			]);
+
+			
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_settings')->withErrors($isValid)->withInput();
+			}
+
+			Site::where('id', 1)->update([
+				'name'		=>	$request->input('name'),
+				'language'	=>	$request->input('language'),
+				'theme'		=>	$request->input('theme'),
+				'logo'		=>	$request->input('logo'),
+				'favicon'	=>	$request->input('favicon'),
+				'page_description'	=>	$request->input('page_description'),
+				'support_email'		=>	$request->input('support_email'),
+				'support_url'		=>	$request->input('support_url'),
+				'show_training_url'	=>	$request->input('show_training_url'),
+				'training_url'		=>	$request->input('training_url')
+			]);
+
+			return redirect()->route('get_admin_settings')->with('status.success', 'General Settings Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_settings')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// admin settings email (post)
+	public function postSettingsEmail(Request $request)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'from_name'			=> 'required',
+				'from_address'		=> 'required'
+			]);
+
+			
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_settings')->withErrors($isValid)->withInput();
+			}
+
+			Site::where('id', 1)->update([
+				'host'			=>	$request->input('host'),
+				'port'			=>	$request->input('port'),
+				'encryption'	=>	$request->input('encryption'),
+				'username'		=>	$request->input('username'),
+				'password'		=>	$request->input('password'),
+				'from_address'	=>	$request->input('from_address'),
+				'from_name'		=>	$request->input('from_name')
+			]);
+
+			return redirect()->route('get_admin_settings')->with('status.success', 'Email Settings Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_settings')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// admin settings domain (post)
+	public function postSettingsDomain(Request $request)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'unique_name'   =>  'required|min:3|max:50|unique:site_settings,unique_name,1',
+			]);
+			
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_settings')->withErrors($isValid)->withInput();
+			}
+
+			Site::where('id', 1)->update([
+				'unique_name'	=>	$request->input('unique_name'),
+				'external_url'	=>	$request->input('external_url')
+			]);
+
+			return redirect()->route('get_admin_settings')->with('status.success', 'Domain Settings Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_settings')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// admin settings password (post)
+	public function postSettingsPassword(Request $request)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'password'      =>  'required|string|min:6|max:50',
+				'password_confirm' =>  'required|string|min:6|max:50|same:password',
+			]);
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_settings')->withErrors($isValid)->withInput();
+			}
+			$user = User::find('1');
+			if($user)
+			{
+				$user->password = bcrypt($request->input('password'));
+				$user->save();
+				return redirect()->route('get_admin_settings')->with('status.success', 'Password Changed.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_settings')->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_settings')->with('status.error', 'Something went wrong');
+		}
 	}
 
 }
