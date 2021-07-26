@@ -71,13 +71,32 @@
 									</svg>
 								</button>
 								<div class="dropdown-menu dropdown-menu-end">
-									<a class="dropdown-item" href="#">
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-											<line x1="18" y1="6" x2="6" y2="18"></line>
-											<line x1="6" y1="6" x2="18" y2="18"></line>
-										</svg>&nbsp;Disable
-									</a>
+									<button type="button" class="dropdown-item" onclick="event.preventDefault();document.getElementById('change-plan-status-{{ $plan->id }}').submit();">
+										@if($plan->enabled)
+										<span class="text-danger">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+												<line x1="18" y1="6" x2="6" y2="18"></line>
+												<line x1="6" y1="6" x2="18" y2="18"></line>
+											</svg>&nbsp;Disable
+										</span>
+										@else
+										<span class="text-success">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+												<path d="M5 12l5 5l10 -10"></path>
+											</svg>&nbsp;Enable
+										</span>
+										@endif
+									</button>
+									<form id="change-plan-status-{{ $plan->id }}" action="{{ route('post_admin_plans_edit_status', $plan->id) }}" method="POST" style="display: none;">
+										{{ csrf_field() }}
+										@if($plan->enabled)
+											<input type="hidden" name="enabled" value="0">
+										@else
+											<input type="hidden" name="enabled" value="1">
+										@endif
+									</form>
 									<a class="dropdown-item text-red" href="#">
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 											<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

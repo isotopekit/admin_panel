@@ -167,6 +167,40 @@ class AdminController extends Controller
 		}
 	}
 
+	// change plan status
+	public function postChangePlanStatus(Request $request, $id)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'enabled'	=> 'required|boolean'
+			]);
+
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_plans_index')->with('status.error', 'Something Went Wrong');
+			}
+
+			Levels::where('id', $id)->update([
+				'enabled'	=>	$request->input('enabled')
+			]);
+
+			if($request->input('enabled') == true)
+			{
+				return redirect()->route('get_admin_plans_index')->with('status.success', 'Plan now Active.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_plans_index')->with('status.error', 'Plan now Inactive.');
+			}
+
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_plans_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
 	// settings
 	public function getSettings(Request $request)
 	{

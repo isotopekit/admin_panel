@@ -38,6 +38,8 @@ Route::group(
 		Route::get('/plans/edit/{id}', [AdminController::class, 'getEditPlan'])->name('get_admin_plans_edit');
 		Route::post('/plans/edit/{id}', [AdminController::class, 'postEditPlan'])->name('post_admin_plans_edit');
 
+		Route::post('/plans/change_status/{id}', [AdminController::class, 'postChangePlanStatus'])->name('post_admin_plans_edit_status');
+
 		Route::get('/settings', [AdminController::class, 'getSettings'])->name('get_admin_settings');
 	}
 );
