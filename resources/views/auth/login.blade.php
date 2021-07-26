@@ -1,5 +1,7 @@
 @extends('admin_panel::_layouts.guest')
 
+@section('title','Login')
+
 @section('content')
 	<div class="page page-center">
 		<div class="container-tight py-4">

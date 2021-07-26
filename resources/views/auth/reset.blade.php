@@ -1,4 +1,5 @@
 @extends('admin_panel::_layouts.guest')
+@section('title','Reset')
 
 @section('content')
 

@@ -1,5 +1,5 @@
 @extends('admin_panel::_layouts.admin')
-
+@section('title','Dashboard')
 @section('content')
 
 	<!-- header -->

@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin Panel</title>
+	<title>Admin Panel : @yield('title')</title>
 
 	<!-- CSS files -->
 	<link href="{{ asset('admin_panel/dist/css/tabler.min.css') }}" rel="stylesheet" />
@@ -520,11 +520,12 @@
 
 	<!-- JS files -->
 	
-	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- <script src="{{ asset('admin_panel/dist/js/tabler.min.js') }}"></script> -->
 	<script src="{{ asset('admin_panel/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 	
 	<script>
+		// get query string
 		function getUrlVars()
 		{
 			var vars = [], hash;
@@ -537,6 +538,19 @@
 			}
 			return vars;
 		}
+
+		// active nav
+		var _c_url = window.location.href;
+		$("#navbar-menu a[href='"+_c_url+"']").addClass("active");
+
+		// confirm delete
+		// $(".delete_a_thing").click(function(e){
+		// 	var answer = confirm("Do you want to delete ?");
+			
+		// 	if(!answer) {
+		// 		e.preventDefault();
+		// 	}
+		// });
 	</script>
 	@yield('footer')
 </body>

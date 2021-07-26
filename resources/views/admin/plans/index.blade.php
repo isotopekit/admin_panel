@@ -1,5 +1,5 @@
 @extends('admin_panel::_layouts.admin')
-
+@section('title','Plans')
 @section('content')
 
 <div class="container-xl">
@@ -97,7 +97,7 @@
 											<input type="hidden" name="enabled" value="1">
 										@endif
 									</form>
-									<button class="dropdown-item text-red" onclick="event.preventDefault();document.getElementById('delete-plan-{{ $plan->id }}').submit();">
+									<button class="dropdown-item text-red delete_a_thing" onclick="event.preventDefault();document.getElementById('delete-plan-{{ $plan->id }}').submit();">
 										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 											<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 											<line x1="4" y1="7" x2="20" y2="7"></line>
