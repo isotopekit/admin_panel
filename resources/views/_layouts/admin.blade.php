@@ -196,7 +196,7 @@
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-							<a href="/settings.html" class="dropdown-item">Settings</a>
+							<a href="{{ route('get_admin_settings') }}" class="dropdown-item">Settings</a>
 							<button type="button" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</button>
 						</div>
 					</div>
@@ -457,7 +457,7 @@
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-							<a href="/settings.html" class="dropdown-item">Settings</a>
+							<a href="{{ route('get_admin_settings') }}" class="dropdown-item">Settings</a>
 							<button type="button" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</button>
 							<form id="logout-form" action="{{ route('post_admin_logout_route') }}" method="POST" style="display: none;">
 								{{ csrf_field() }}
