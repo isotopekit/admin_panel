@@ -20,11 +20,12 @@
 [Done] admin panel name and links from config
 [Done] routes based on config
 
+[Done] 404 error view
+[Done] 500 error view
+
 [TODO]
 
 > before delete confirm
-> 404 error view
-> 500 error view
 > cancel link route
 
 [Later]

@@ -129,7 +129,7 @@ class AdminController extends Controller
 		}
 		else
 		{
-			return view('errors.404');
+			return view('admin_panel::errors.404');
 		}
 	}
 
