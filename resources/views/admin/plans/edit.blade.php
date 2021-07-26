@@ -234,7 +234,7 @@
 						</div>
 
 						<div class="d-flex">
-							<a href="#" class="btn btn-link">Cancel</a>
+							<a href="{{ route('get_admin_plans_index') }}" class="btn btn-link">Cancel</a>
 							<button type="submit" class="btn btn-success ms-auto">Update</a>
 						</div>
 						

@@ -23,10 +23,11 @@
 [Done] 404 error view
 [Done] 500 error view
 
+[Done] cancel link route
+
 [TODO]
 
 > before delete confirm
-> cancel link route
 
 [Later]
 

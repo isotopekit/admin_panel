@@ -252,6 +252,8 @@
 				<form action="{{ route('post_admin_users_add') }}" method="POST">
 					{{ csrf_field() }}
 					<div class="modal-body">
+						@component('admin_panel::_layouts.components.alert')
+						@endcomponent
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="mb-3">

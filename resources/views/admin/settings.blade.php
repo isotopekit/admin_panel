@@ -207,7 +207,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Save Changes</button>
 							</div>
 						</div>
@@ -334,7 +334,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
@@ -413,7 +413,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
@@ -490,7 +490,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Change Password</button>
 							</div>
 						</div>

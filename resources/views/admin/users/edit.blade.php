@@ -160,7 +160,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_users_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Update</button>
 							</div>
 						</div>
@@ -219,7 +219,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="#" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_admin_users_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Change Password</button>
 							</div>
 						</div>
