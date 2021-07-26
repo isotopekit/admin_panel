@@ -128,7 +128,7 @@
 											</td>
 											<td>
 												<div class="btn-list flex-nowrap">
-													<a href="/user-edit.html" class="btn btn-white">
+													<a href="{{ route('get_admin_users_edit', ['id' => $user->id]) }}" class="btn btn-white">
 														Edit
 													</a>
 													<div class="dropdown">

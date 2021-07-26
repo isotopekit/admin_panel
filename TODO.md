@@ -5,7 +5,7 @@
 
 [Done] Users ALL
 [Done] Users ADD
-> Users Edit
+[Done] Users Edit
 > Users Actions
 
 [Done] Plans ALL
@@ -16,8 +16,12 @@
 > Admin Settings
 
 [Later]
+> titles for views
 > before delete confirm
 > admin panel name and links from config
 > relation b/w tables
 > populate user plan details (users list)
 > User List Datatable
+> 404 error view
+> 500 error view
+> cancel link route

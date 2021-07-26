@@ -31,6 +31,16 @@ Route::group(
 
 		// users/create (post)
 		Route::post('/users/add', [AdminController::class, 'postAddUser'])->name('post_admin_users_add');
+
+		// edit user
+		Route::get('/users/edit/{id}', [AdminController::class, 'getEditUser'])->name('get_admin_users_edit');
+
+		// edit user (post)
+		Route::post('/users/edit/{id}', [AdminController::class, 'postEditUser'])->name('post_admin_users_edit');
+
+		// change user password (post)
+		Route::post('/users/change-password/{id}', [AdminController::class, 'postChangeUserPassword'])->name('post_admin_users_password');
+		
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
 		

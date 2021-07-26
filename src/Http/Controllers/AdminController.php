@@ -103,6 +103,117 @@ class AdminController extends Controller
 		}
 	}
 
+	// edit user
+	public function getEditUser(Request $request, $id)
+	{
+		$user = User::find($id);
+		if($user)
+		{
+			$plans = Levels::where('id', '!=', '1')->get();
+			$user_plan = User_Role::where('user_id', $id)->first();
+			$plan_id = null;
+			if($user_plan != null)
+			{
+				$levels = json_decode($user_plan->levels);
+				$plan_id = $levels[1];
+
+				$user->plan_name = null;
+				$level_info = Levels::where('id', $plan_id)->first();
+				if($level_info)
+				{
+					$user->plan_name = $level_info->name;
+				}
+			}
+			return view('admin_panel::admin.users.edit')->with('user', $user)->with('plans', $plans)->with('plan_id', $plan_id);
+		}
+		else
+		{
+			return view('errors.404');
+		}
+	}
+
+	// update user (post)
+	public function postEditUser(Request $request, $id)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'first_name'    =>  'required|string|min:3',
+				'last_name'     =>  'required|string|min:3',
+				'email'         =>  'required|string|email|min:5|max:50|unique:users,email,'.$id,
+				'plan_id'       =>  'required'
+			]);
+
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->withErrors($isValid)->withInput();
+			}
+
+			$user = User::find($id);
+			if($user)
+			{
+				$user->first_name = $request->input('first_name');
+				$user->last_name = $request->input('last_name');
+				$user->email = $request->input('email');
+				$user->save();
+
+				$user_role = User_Role::where('user_id', $id)->first();
+				if($user_role)
+				{
+					$user_role->levels = '["1",'.json_encode($request->input('plan_id')).']';
+					$user_role->save();
+				}
+				else
+				{
+					$user_role = User_Role::create([
+						'user_id'	=>	$id,
+						'levels'    => '["1",'.json_encode($request->input('plan_id')).']',
+					]);
+				}
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.success', 'User Updated.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+		}
+	}
+
+	// change user password (post)
+	public function postChangeUserPassword(Request $request, $id)
+	{
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'password'      =>  'required|string|min:6|max:50',
+				'password_confirm' =>  'required|string|min:6|max:50|same:password',
+			]);
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->withErrors($isValid)->withInput();
+			}
+			$user = User::find($id);
+			if($user)
+			{
+				$user->password = bcrypt($request->input('password'));
+				$user->save();
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.success', 'Password Changed.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+		}
+	}
+
 	// domains
 	public function getDomains(Request $request)
 	{
@@ -182,7 +293,14 @@ class AdminController extends Controller
 	public function getEditPlan(Request $request, $id)
 	{
 		$plan = Levels::find($id);
-		return view('admin_panel::admin.plans.edit')->with('plan', $plan);
+		if($plan)
+		{
+			return view('admin_panel::admin.plans.edit')->with('plan', $plan);
+		}
+		else
+		{
+			return view('admin_panel::errors.404');
+		}
 	}
 	
 	// edit plan (post)
