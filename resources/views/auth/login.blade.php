@@ -8,11 +8,10 @@
 					IsotopeKit
 				</a>
 			</div>
-			@if ($errors->has('general'))
-				<div class="alert alert-important alert-danger">
-					<strong>{{ $errors->first('general') }}</strong>
-				</div>
-			@endif
+			
+			@component('admin_panel::_layouts.components.alert')
+        	@endcomponent
+
 			<form class="card card-md" action="{{ route('post_login_route') }}" method="post">
 				{{ csrf_field() }}
 				<input type="hidden" name="login_type" value="admin"/>

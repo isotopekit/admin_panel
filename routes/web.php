@@ -30,7 +30,13 @@ Route::group(
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
 		
+		// plans
 		Route::get('/plans', [AdminController::class, 'getPlans'])->name('get_admin_plans_index');
+		Route::get('/plans/add', [AdminController::class, 'getAddPlan'])->name('get_admin_plans_add');
+		Route::post('/plans/add', [AdminController::class, 'postAddPlan'])->name('post_admin_plans_add');
+
+		Route::get('/plans/edit/{id}', [AdminController::class, 'getEditPlan'])->name('get_admin_plans_edit');
+		Route::post('/plans/edit/{id}', [AdminController::class, 'postEditPlan'])->name('post_admin_plans_edit');
 
 		Route::get('/settings', [AdminController::class, 'getSettings'])->name('get_admin_settings');
 	}

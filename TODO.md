@@ -8,9 +8,9 @@
 > Users Edit
 > Users Actions
 
-> Plans ALL
-> Plans ADD
-> Plans Edit
+[Done] Plans ALL
+[Done] Plans ADD
+[Done] Plans Edit
 > Plans Actions
 
 > Admin Settings
