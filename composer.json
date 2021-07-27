@@ -34,6 +34,18 @@
 			"IsotopeKit\\AdminPanel\\": "src/"
 		}
 	},
+	"scripts": {
+		"post-install-cmd": [
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='views' --force",
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='assets' --force",
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='config' --force"
+		],
+		"post-update-cmd": [
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='views' --force",
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='assets' --force",
+			"php artisan vendor:publish --provider='IsotopeKit\\AdminPanel\\ServiceProvider' --tag='config' --force"
+		]
+	},
 	"extra": {
 		"laravel": {
 			"providers": [

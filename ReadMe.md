@@ -1,4 +1,34 @@
 ## Install
+### local
+```
+"repositories": [
+	{
+		"type": "path",
+		"url": "/packages/admin_panel",
+		"options": {
+			"symlink": true
+		}
+	}
+]
+```
+
+### github
+```
+"repositories": [
+	{
+		"type": "vcs",
+        "url": "git@github.com:isotopekit/admin_panel.git"
+	}
+]
+```
+
+```
+"config": {
+	"github-oauth": {
+		"github.com": "token_here"
+	}
+}
+```
 
 ```
 composer require isotopekit/admin_panel @dev

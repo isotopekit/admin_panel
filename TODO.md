@@ -31,7 +31,6 @@
 [TODO]
 
 > Notifications (web, email)
-> Domains API
 
 [Later]
 > white labeling based on agency site settings in login, dashboard etc. (localhost test too)
