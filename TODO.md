@@ -24,13 +24,18 @@
 [Done] 500 error view
 
 [Done] cancel link route
+[Done] admin id, user id and agency id from config
 
 [TODO]
 
-> before delete confirm
+> Agency
+> Notifications (web, email)
+> Domains API
 
 [Later]
-
+> white labeling based on agency site settings in login, dashboard etc. (localhost test too)
+> before delete confirm
+> Languages
 > email and domain configuration check
 > domain input check
 > user reset (send email)
@@ -38,7 +43,7 @@
 > admin notifications
 
 > relation b/w tables
-> populate user plan details (users list)
+> populate user plan details (users list) using model
 > User List Datatable
 
 > admin dashboard

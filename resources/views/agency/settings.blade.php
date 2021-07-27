@@ -1,4 +1,4 @@
-@extends('admin_panel::_layouts.admin')
+@extends('admin_panel::_layouts.agency')
 @section('title','Settings')
 @section('content')
 
@@ -10,7 +10,7 @@
 				<h2 class="page-title">
 					Settings
 				</h2>
-				<div class="text-muted mt-1">Super Admin Settings</div>
+				<div class="text-muted mt-1">Agency Settings</div>
 			</div>
 		</div>
 	</div>
@@ -74,7 +74,7 @@
 					<div class="card-header">
 						<h3 class="card-title">General</h3>
 					</div>
-					<form action="{{ route('post_admin_settings_general') }}" method="post">
+					<form action="{{ route('post_agency_settings_general') }}" method="post">
 						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
@@ -207,7 +207,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Save Changes</button>
 							</div>
 						</div>
@@ -218,14 +218,14 @@
 					<div class="card-header">
 						<h3 class="card-title">Email Setup</h3>
 					</div>
-					<form action="{{ route('post_admin_settings_email') }}" method="post">
+					<form action="{{ route('post_agency_settings_email') }}" method="post">
 						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Host</label>
 								<div class="col">
 									<input
-										type="text" required name="host"
+										type="text" name="host"
 										@if($errors->has('host'))
 											class="form-control is-invalid"
 										@else
@@ -242,7 +242,7 @@
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Port</label>
 								<div class="col">
 									<input
-										type="text" required name="port"
+										type="text" name="port"
 										@if($errors->has('port'))
 											class="form-control is-invalid"
 										@else
@@ -258,7 +258,7 @@
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Encryption</label>
 								<div class="col">
-									<select name="encryption" required class="form-control">
+									<select name="encryption" class="form-control">
 										<option  {{ old('encryption', $settings->encryption) == "tls" ? "selected": "" }} value="tls">TLS</option>
 									</select>
 								</div>
@@ -267,7 +267,7 @@
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Username</label>
 								<div class="col">
 									<input
-										type="text" required name="username"
+										type="text" name="username"
 										@if($errors->has('username'))
 											class="form-control is-invalid"
 										@else
@@ -284,7 +284,7 @@
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Password</label>
 								<div class="col">
 									<input
-										type="text" required name="password"
+										type="text" name="password"
 										@if($errors->has('password'))
 											class="form-control is-invalid"
 										@else
@@ -334,7 +334,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
@@ -349,7 +349,7 @@
 					<div class="card-header">
 						<h3 class="card-title">Domain Setup</h3>
 					</div>
-					<form action="{{ route('post_admin_settings_domain') }}" method="post">
+					<form action="{{ route('post_agency_settings_domain') }}" method="post">
 						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
@@ -413,7 +413,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
@@ -428,7 +428,7 @@
 					<div class="card-header">
 						<h3 class="card-title">Security</h3>
 					</div>
-					<form action="{{ route('post_admin_settings_password') }}" method="post">
+					<form action="{{ route('post_agency_settings_password') }}" method="post">
 						{{ csrf_field() }}
 
 						<div class="card-body">
@@ -490,7 +490,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">
-								<a href="{{ route('get_admin_index') }}" class="btn btn-link">Cancel</a>
+								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<button type="submit" class="btn btn-success ms-auto">Change Password</button>
 							</div>
 						</div>

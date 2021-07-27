@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use IsotopeKit\AdminPanel\Http\Controllers\AuthController;
 use IsotopeKit\AdminPanel\Http\Controllers\AdminController;
+use IsotopeKit\AdminPanel\Http\Controllers\AgencyController;
 
 use IsotopeKit\AuthAPI\Http\Controllers\AuthController as auth_api_auth_controller;
 
@@ -87,12 +88,52 @@ Route::group(
 	}
 );
 
-// Route::group(
-// 	[
-// 		'prefix'		=>	config('adminpanel.route_prefix'),
-// 		'middleware'	=>	['agency']
-// 	],
-// 	function () {
-		
-// 	}
-// );
+Route::group(
+	[
+		'prefix'		=>	config('isotopekit_admin.route_agency'),
+		'middleware'	=>	['agency']
+	],
+	function () {
+		Route::get('/', [AgencyController::class, 'index'])->name('get_agency_index');
+		Route::post('/logout', [auth_api_auth_controller::class, 'postLogout'])->name('post_agency_logout_route');
+
+		// users
+		Route::get('/users', [AgencyController::class, 'getUsers'])->name('get_agency_users_index');
+
+		// users/create (post)
+		Route::post('/users/add', [AgencyController::class, 'postAddUser'])->name('post_agency_users_add');
+
+		// edit user
+		Route::get('/users/edit/{id}', [AgencyController::class, 'getEditUser'])->name('get_agency_users_edit');
+
+		// edit user (post)
+		Route::post('/users/edit/{id}', [AgencyController::class, 'postEditUser'])->name('post_agency_users_edit');
+
+		// change user password (post)
+		Route::post('/users/change-password/{id}', [AgencyController::class, 'postChangeUserPassword'])->name('post_agency_users_password');
+
+		// access user
+		Route::post('/users/access/{id}', [AgencyController::class, 'postAccessUser'])->name('post_agency_users_access');
+
+		// user status (post)
+		Route::post('/users/change_status/{id}', [AgencyController::class, 'postChangeUserStatus'])->name('post_agency_users_edit_status');
+		// user delete
+		Route::post('/users/delete/{id}', [AgencyController::class, 'postDeleteUser'])->name('post_agency_users_delete');
+
+
+		// agency settings
+		Route::get('/settings', [AgencyController::class, 'getSettings'])->name('get_agency_settings');
+
+		// agency settings general (post)
+		Route::post('/settings-general', [AgencyController::class, 'postSettingsGeneral'])->name('post_agency_settings_general');
+
+		// agency settings email (post)
+		Route::post('/settings-email', [AgencyController::class, 'postSettingsEmail'])->name('post_agency_settings_email');
+
+		// agency settings domain (post)
+		Route::post('/settings-domain', [AgencyController::class, 'postSettingsDomain'])->name('post_agency_settings_domain');
+
+		// agency settings password (post)
+		Route::post('/settings-password', [AgencyController::class, 'postSettingsPassword'])->name('post_agency_settings_password');
+	}
+);

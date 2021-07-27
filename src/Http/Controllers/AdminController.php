@@ -21,6 +21,7 @@ use IsotopeKit\AuthAPI\Models\Site;
 class AdminController extends Controller
 {
 
+	// dashboard
 	public function index(Request $request)
 	{
 		return view('admin_panel::admin.index');
