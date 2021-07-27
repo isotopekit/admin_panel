@@ -192,7 +192,7 @@
 							<span class="avatar avatar-sm bg-blue-lt">SA</span>
 							<div class="d-none d-xl-block ps-2">
 								<div>SuperAdmin</div>
-								<div class="mt-1 small text-muted">admin@gmail.com</div>
+								<div class="mt-1 small text-muted">{{ Auth::user()->email }}</div>
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -453,7 +453,7 @@
 							<span class="avatar avatar-sm bg-blue-lt">SA</span>
 							<div class="d-none d-xl-block ps-2">
 								<div>Super Admin</div>
-								<div class="mt-1 small text-muted">admin@gmail.com</div>
+								<div class="mt-1 small text-muted">{{ Auth::user()->email }}</div>
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
