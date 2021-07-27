@@ -26,9 +26,10 @@
 [Done] cancel link route
 [Done] admin id, user id and agency id from config
 
+[Done] Agency
+
 [TODO]
 
-> Agency
 > Notifications (web, email)
 > Domains API
 

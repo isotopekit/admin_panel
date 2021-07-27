@@ -28,26 +28,6 @@ class AgencyController extends Controller
 		return view('admin_panel::agency.index');
 	}
 
-	// settings
-	public function getSettings(Request $request)
-	{
-		$site_settings = Site::where('agency_id', Auth::id())->first();
-
-		if($site_settings == null)
-		{
-			Site::create([
-				'name'      =>  Auth::user()->first_name,
-				'language'	=> 'en',
-				'theme'		=> 'default',
-                'agency_id' =>  Auth::id()
-			]);
-
-			$site_settings = Site::where('agency_id', Auth::id())->first();
-		}
-
-		return view('admin_panel::agency.settings')->with('settings', $site_settings);
-	}
-
 	// users
 	public function getUsers(Request $request)
 	{
@@ -185,6 +165,234 @@ class AgencyController extends Controller
 		}
 	}
 
+	// edit user
+	public function getEditUser(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		$user = User::find($id);
+		if($user)
+		{
+			$plans = Levels::where('id', '!=', '1')->get();
+			$user_plan = User_Role::where('user_id', $id)->first();
+			$plan_id = null;
+			if($user_plan != null)
+			{
+				$levels = json_decode($user_plan->levels);
+				$plan_id = $levels[1];
+
+				$user->plan_name = null;
+				$level_info = Levels::where('id', $plan_id)->first();
+				if($level_info)
+				{
+					$user->plan_name = $level_info->name;
+				}
+			}
+			return view('admin_panel::agency.users.edit')->with('user', $user)->with('plans', $plans)->with('plan_id', $plan_id);
+		}
+		else
+		{
+			return view('admin_panel::errors.404');
+		}
+	}
+
+	// update user (post)
+	public function postEditUser(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'first_name'    =>  'required|string|min:3',
+				'last_name'     =>  'required|string|min:3',
+				'email'         =>  'required|string|email|min:5|max:50|unique:users,email,'.$id,
+				'plan_id'       =>  'required'
+			]);
+
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->withErrors($isValid)->withInput();
+			}
+
+			$user = User::find($id);
+			if($user)
+			{
+				$user->first_name = $request->input('first_name');
+				$user->last_name = $request->input('last_name');
+				$user->email = $request->input('email');
+				$user->save();
+
+				$user_role = User_Role::where('user_id', $id)->first();
+				if($user_role)
+				{
+					$user_role->levels = '["1",'.json_encode($request->input('plan_id')).']';
+					$user_role->save();
+				}
+				else
+				{
+					$user_role = User_Role::create([
+						'user_id'	=>	$id,
+						'levels'    => '["1",'.json_encode($request->input('plan_id')).']',
+					]);
+				}
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.success', 'User Updated.');
+			}
+			else
+			{
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+		}
+	}
+
+	// change user password (post)
+	public function postChangeUserPassword(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'password'      =>  'required|string|min:6|max:50',
+				'password_confirm' =>  'required|string|min:6|max:50|same:password',
+			]);
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->withErrors($isValid)->withInput();
+			}
+			$user = User::find($id);
+			if($user)
+			{
+				$user->password = bcrypt($request->input('password'));
+				$user->save();
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.success', 'Password Changed.');
+			}
+			else
+			{
+				return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_agency_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+		}
+	}
+
+	// change user status
+	public function postChangeUserStatus(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'enabled'	=> 'required|boolean'
+			]);
+
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_agency_users_index')->with('status.error', 'Something Went Wrong');
+			}
+
+			User::where('id', $id)->update([
+				'enabled'	=>	$request->input('enabled')
+			]);
+
+			if($request->input('enabled') == true)
+			{
+				return redirect()->route('get_agency_users_index')->with('status.success', 'User now Active.');
+			}
+			else
+			{
+				return redirect()->route('get_agency_users_index')->with('status.error', 'User now Inactive.');
+			}
+
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// delete user (post)
+	public function postDeleteUser(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		try
+		{
+			User::where('id', $id)->delete();
+			return redirect()->route('get_agency_users_index')->with('status.success', 'User Deleted.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
+	// access user (post)
+	public function postAccessUser(Request $request, $id)
+	{
+		// check if agency is the owner of this user
+		$user = User::find($id);
+		if($user->created_by != Auth::id())
+		{
+			return redirect()->route('get_agency_users_index')->with('status.error', 'You cannot access this user.');
+		}
+
+		Auth::loginUsingId($id);
+		return redirect('/user/');
+	}
+
+	// settings
+	public function getSettings(Request $request)
+	{
+		$site_settings = Site::where('agency_id', Auth::id())->first();
+
+		if($site_settings == null)
+		{
+			Site::create([
+				'name'      =>  Auth::user()->first_name,
+				'language'	=> 'en',
+				'theme'		=> 'default',
+                'agency_id' =>  Auth::id()
+			]);
+
+			$site_settings = Site::where('agency_id', Auth::id())->first();
+		}
+
+		return view('admin_panel::agency.settings')->with('settings', $site_settings);
+	}
+	
 	// agency settings general (post)
 	public function postSettingsGeneral(Request $request)
 	{
