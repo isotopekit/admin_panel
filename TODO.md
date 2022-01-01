@@ -31,6 +31,9 @@
 [TODO]
 
 > Notifications (web, email)
+> Additional Custom Plan Properties (schema)
+- user
+- agency owner
 
 [Later]
 > white labeling based on agency site settings in login, dashboard etc. (localhost test too)

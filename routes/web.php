@@ -56,6 +56,11 @@ Route::group(
 		// plans
 		Route::get('/plans', [AdminController::class, 'getPlans'])->name('get_admin_plans_index');
 
+		// plan schema
+		Route::get('/plans/schema', [AdminController::class, 'getPlanSchema'])->name('get_admin_plans_schema');
+		Route::post('/plans/schema', [AdminController::class, 'postPlanSchema'])->name('post_admin_plans_schema');
+		Route::get('/plans/schema/{id}/delete', [AdminController::class, 'getDeletePlanSchema'])->name('get_admin_plans_schema_delete');
+
 		// add a plan
 		Route::get('/plans/add', [AdminController::class, 'getAddPlan'])->name('get_admin_plans_add');
 		Route::post('/plans/add', [AdminController::class, 'postAddPlan'])->name('post_admin_plans_add');

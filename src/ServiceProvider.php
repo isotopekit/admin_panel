@@ -18,6 +18,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 		$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
 		if ($this->app->runningInConsole()) {
+
+			// migrations
+			if (!class_exists('CreateCustomAttributesTable')) {
+				$this->publishes([
+					__DIR__ . '/../database/migrations/create_custom_attributes_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_custom_attributes_table.php'),
+					// you can add any number of migrations here
+				], 'migrations');
+			}
 			
 			// publish config
 			$this->publishes([

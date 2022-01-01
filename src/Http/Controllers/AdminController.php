@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
-
+use IsotopeKit\AdminPanel\Models\CustomProperties;
 use IsotopeKit\AuthAPI\Models\User;
 use IsotopeKit\AuthAPI\Models\User_Role;
 use IsotopeKit\AuthAPI\Models\Levels;
@@ -283,6 +283,60 @@ class AdminController extends Controller
 		// get all levels except admin level (id: 1)
 		$levels = Levels::where('id','!=',1)->get();
 		return view('admin_panel::admin.plans.index')->with('plans', $levels);
+	}
+
+	// plan schema
+	public function getPlanSchema(Request $request)
+	{
+		$custom_properties = CustomProperties::get();
+		return view('admin_panel::admin.plans.schema')->with('custom_properties', $custom_properties);
+	}
+
+	public function postPlanSchema(Request $request)
+	{
+		// return json_encode($request->all());
+
+		try
+		{
+			$isValid =  Validator::make($request->all(), [
+				'name'    			=> 'required|string',
+				'unique_name'     	=> 'required|alpha_dash|string|unique:custom_properties',
+				'type'				=> 'required|string',
+				'agency_enabled'	=>	'required'
+			]);
+			
+			if($isValid->fails()){
+				$messages = $isValid->messages();
+				return redirect()->route('get_admin_plans_schema')->withErrors($isValid)->withInput();
+			}
+
+			CustomProperties::insert([
+				'name'				=>	$request->input('name'),
+				'unique_name'		=>	$request->input('unique_name'),
+				'type'				=>	$request->input('type'),
+				'agency_enabled'	=>	$request->input('agency_enabled')
+			]);
+
+			return redirect()->route('get_admin_plans_schema')->with('status.success', 'Plans Schema Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_plans_schema')->with('status.error', 'Something went wrong, try again later');
+		}
+	}
+
+	public function getDeletePlanSchema(Request $request, $id)
+	{
+		try
+		{
+			CustomProperties::where('id', $id)->delete();
+			return redirect()->route('get_admin_plans_schema')->with('status.success', 'Custom Property Deleted.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_plans_schema')->with('status.error', 'Something Went Wrong');
+		}
+
 	}
 
 	// add plan
