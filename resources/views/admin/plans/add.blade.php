@@ -38,7 +38,7 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Name</label>
 									<div class="col">
 										<input
-											type="text" name="name"
+											type="text" name="name" required
 											@if($errors->has('name'))
 												class="form-control is-invalid"
 											@else
@@ -55,13 +55,13 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Price ($)</label>
 									<div class="col">
 										<input
-											type="number" name="price" step="0.1" min="0"
+											type="number" name="price" step="0.1" min="0" required
 											@if($errors->has('price'))
 												class="form-control is-invalid"
 											@else
 												class="form-control"
 											@endif
-											value="{{ old('price') }}"
+											value="{{ old('price') ? old('price') : 0 }}"
 										/>
 										@if($errors->has('price'))
 											<div class="invalid-feedback">{{ $errors->first('price') }}</div>
@@ -72,13 +72,13 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Valid Time (in Days)</label>
 									<div class="col">
 										<input
-											type="number" name="valid_time" min="1"
+											type="number" name="valid_time" min="1" required
 											@if($errors->has('valid_time'))
 												class="form-control is-invalid"
 											@else
 												class="form-control"
 											@endif
-											value="{{ old('valid_time') }}"
+											value="{{ old('valid_time') ? old('valid_time') : 0 }}"
 										/>
 										@if($errors->has('valid_time'))
 											<div class="invalid-feedback">{{ $errors->first('valid_time') }}</div>
@@ -170,6 +170,30 @@
 							</div>
 						</div>
 
+						<div class="card mb-4" id="domains">
+							<div class="card-header">
+								<h3 class="card-title">Custom Properties</h3>
+							</div>
+							<div class="card-body">
+								@foreach($custom_properties as $custom_property)
+									<div class="form-group mb-3 row">
+										<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
+										<div class="col">
+											<input type="hidden" name="custom_properties_id[]" value="{{ $custom_property->id }}"/>
+											@if($custom_property->type == "int")
+												<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="0"/>
+											@else
+												<select name="custom_properties_value[]" class="form-control">
+													<option value="0">No</option>
+													<option value="1">Yes</option>
+												</select>
+											@endif
+										</div>
+									</div>
+								@endforeach
+							</div>
+						</div>
+
 						<div class="card mb-4" id="agency">
 							<div class="card-header">
 								<h3 class="card-title">Agency Specific</h3>
@@ -230,6 +254,28 @@
 										<input type="number" name="agency_custom_domains" min="0" class="form-control" />
 									</div>
 								</div>
+
+								<hr>
+
+								<h4 class="text-muted">Custom Properties</h4>
+								@foreach($custom_properties as $custom_property)
+									@if($custom_property->agency_enabled)
+									<div class="form-group mb-3 row">
+										<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
+										<div class="col">
+											<input type="hidden" name="agency_custom_properties_id[]" value="{{ $custom_property->id }}"/>
+											@if($custom_property->type == "int")
+												<input type="number" name="agency_custom_properties_value[]" min="0" class="form-control" value="0" />
+											@else
+												<select name="agency_custom_properties_value[]" class="form-control">
+													<option value="0">No</option>
+													<option value="1">Yes</option>
+												</select>
+											@endif
+										</div>
+									</div>
+									@endif
+								@endforeach
 							</div>
 						</div>
 

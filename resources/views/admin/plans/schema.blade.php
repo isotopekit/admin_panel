@@ -55,7 +55,7 @@
 					<tbody>
 						@foreach($custom_properties as $key => $custom_property)
 							<tr>
-								<td>{{ $key }}</td>
+								<td>{{ $key + 1 }}</td>
 								<td>{{ $custom_property->name }}</td>
 								<td>{{ $custom_property->unique_name }}</td>
 								<td>{{ $custom_property->type }}</td>

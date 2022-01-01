@@ -38,7 +38,7 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Name</label>
 									<div class="col">
 										<input
-											type="text" name="name"
+											type="text" name="name" required
 											@if($errors->has('name'))
 												class="form-control is-invalid"
 											@else
@@ -55,7 +55,7 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Price ($)</label>
 									<div class="col">
 										<input
-											type="number" name="price" step="0.1" min="0"
+											type="number" name="price" step="0.1" min="0" required
 											@if($errors->has('price'))
 												class="form-control is-invalid"
 											@else
@@ -72,7 +72,7 @@
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">Valid Time (in Days)</label>
 									<div class="col">
 										<input
-											type="number" name="valid_time" min="1"
+											type="number" name="valid_time" min="1" required
 											@if($errors->has('valid_time'))
 												class="form-control is-invalid"
 											@else
@@ -170,6 +170,39 @@
 							</div>
 						</div>
 
+						<div class="card mb-4" id="domains">
+							<div class="card-header">
+								<h3 class="card-title">Custom Properties</h3>
+							</div>
+							<div class="card-body">
+								@foreach($custom_properties as $custom_property)
+									<div class="form-group mb-3 row">
+										<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
+										<div class="col">
+											<input type="hidden" name="custom_properties_id[]" value="{{ $custom_property->id }}"/>
+											<?php
+												$item_val = 0;
+												$array_utility = new \IsotopeKit\Utility\ArrayUtils();
+												$search_in_array = $array_utility->objArraySearch(json_decode($plan->custom_properties), "id", $custom_property->id);
+												if($search_in_array)
+												{
+													$item_val = $search_in_array->value;
+												}
+											?>
+											@if($custom_property->type == "int")
+												<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}"/>
+											@else
+												<select name="custom_properties_value[]" class="form-control">
+													<option value="0" @if($item_val == 0) selected @endif>No</option>
+													<option value="1" @if($item_val == 1) selected @endif>Yes</option>
+												</select>
+											@endif
+										</div>
+									</div>
+								@endforeach
+							</div>
+						</div>
+
 						<div class="card mb-4" id="agency">
 							<div class="card-header">
 								<h3 class="card-title">Agency Specific</h3>
@@ -230,6 +263,37 @@
 										<input type="number" name="agency_custom_domains" min="0" class="form-control" value="{{ old('agency_custom_domains', $plan->agency_custom_domains) }}"/>
 									</div>
 								</div>
+
+								<hr>
+
+								<h4 class="text-muted">Custom Properties</h4>
+								@foreach($custom_properties as $custom_property)
+									@if($custom_property->agency_enabled)
+									<div class="form-group mb-3 row">
+										<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
+										<div class="col">
+											<input type="hidden" name="agency_custom_properties_id[]" value="{{ $custom_property->id }}"/>
+											<?php
+												$agency_item_val = 0;
+												$agency_array_utility = new \IsotopeKit\Utility\ArrayUtils();
+												$agency_search_in_array = $agency_array_utility->objArraySearch(json_decode($plan->agency_custom_properties), "id", $custom_property->id);
+												if($agency_search_in_array)
+												{
+													$agency_item_val = $agency_search_in_array->value;
+												}
+											?>
+											@if($custom_property->type == "int")
+												<input type="number" name="agency_custom_properties_value[]" min="0" class="form-control" value="{{ $agency_item_val }}" />
+											@else
+												<select name="agency_custom_properties_value[]" class="form-control">
+													<option value="0" @if($agency_item_val == 0) selected @endif>No</option>
+													<option value="1" @if($agency_item_val == 1) selected @endif>Yes</option>
+												</select>
+											@endif
+										</div>
+									</div>
+									@endif
+								@endforeach
 							</div>
 						</div>
 

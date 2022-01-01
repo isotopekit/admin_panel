@@ -342,7 +342,8 @@ class AdminController extends Controller
 	// add plan
 	public function getAddPlan(Request $request)
 	{
-		return view('admin_panel::admin.plans.add');
+		$custom_properties = CustomProperties::get();
+		return view('admin_panel::admin.plans.add')->with('custom_properties', $custom_properties);
 	}
 
 	// add plan (post)
@@ -359,6 +360,28 @@ class AdminController extends Controller
 			if($isValid->fails()){
 				$messages = $isValid->messages();
 				return redirect()->route('get_admin_plans_add')->withErrors($isValid)->withInput();
+			}
+
+			$custom_property = [];
+			$custom_properties_id = $request->input('custom_properties_id');
+			$custom_properties_value = $request->input('custom_properties_value');
+			foreach ($custom_properties_id as $key => $val) {
+				$item = [
+					"id"	=>	$val,
+					"value"	=>	$custom_properties_value[$key]
+				];
+				array_push($custom_property, $item);
+			}
+
+			$agency_custom_property = [];
+			$agency_custom_properties_id = $request->input('agency_custom_properties_id');
+			$agency_custom_properties_value = $request->input('agency_custom_properties_value');
+			foreach ($agency_custom_properties_id as $key => $val) {
+				$item = [
+					"id"	=>	$val,
+					"value"	=>	$agency_custom_properties_value[$key]
+				];
+				array_push($agency_custom_property, $item);
 			}
 
 			Levels::insert([
@@ -389,7 +412,10 @@ class AdminController extends Controller
 
 				// agency custom domains
 				'agency_enable_custom_domains'	=>	$request->input('agency_enable_custom_domains'),
-				'agency_custom_domains'			=>	$request->input('agency_custom_domains')
+				'agency_custom_domains'			=>	$request->input('agency_custom_domains'),
+
+				'custom_properties'		=>	json_encode($custom_property),
+				'agency_custom_properties'		=>	json_encode($agency_custom_property)
 			]);
 
 			return redirect()->route('get_admin_plans_index')->with('status.success', 'Plan Created.');
@@ -403,10 +429,11 @@ class AdminController extends Controller
 	// edit plan
 	public function getEditPlan(Request $request, $id)
 	{
+		$custom_properties = CustomProperties::get();
 		$plan = Levels::find($id);
 		if($plan)
 		{
-			return view('admin_panel::admin.plans.edit')->with('plan', $plan);
+			return view('admin_panel::admin.plans.edit')->with('plan', $plan)->with('custom_properties', $custom_properties);
 		}
 		else
 		{
@@ -428,6 +455,28 @@ class AdminController extends Controller
 			if($isValid->fails()){
 				$messages = $isValid->messages();
 				return redirect()->route('get_admin_plans_edit', ['id' => $id])->withErrors($isValid)->withInput();
+			}
+
+			$custom_property = [];
+			$custom_properties_id = $request->input('custom_properties_id');
+			$custom_properties_value = $request->input('custom_properties_value');
+			foreach ($custom_properties_id as $key => $val) {
+				$item = [
+					"id"	=>	$val,
+					"value"	=>	$custom_properties_value[$key]
+				];
+				array_push($custom_property, $item);
+			}
+
+			$agency_custom_property = [];
+			$agency_custom_properties_id = $request->input('agency_custom_properties_id');
+			$agency_custom_properties_value = $request->input('agency_custom_properties_value');
+			foreach ($agency_custom_properties_id as $key => $val) {
+				$item = [
+					"id"	=>	$val,
+					"value"	=>	$agency_custom_properties_value[$key]
+				];
+				array_push($agency_custom_property, $item);
 			}
 
 			Levels::where('id', $id)->update([
@@ -458,7 +507,10 @@ class AdminController extends Controller
 
 				// agency custom domains
 				'agency_enable_custom_domains'	=>	$request->input('agency_enable_custom_domains'),
-				'agency_custom_domains'			=>	$request->input('agency_custom_domains')
+				'agency_custom_domains'			=>	$request->input('agency_custom_domains'),
+
+				'custom_properties'		=>	json_encode($custom_property),
+				'agency_custom_properties'		=>	json_encode($agency_custom_property)
 			]);
 
 			return redirect()->route('get_admin_plans_index')->with('status.success', 'Plan Updated.');

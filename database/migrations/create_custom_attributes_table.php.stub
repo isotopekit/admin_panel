@@ -23,7 +23,8 @@ class CreateCustomAttributesTable extends Migration
         });
 
 		Schema::table('levels', function (Blueprint $table) {
-            $table->longText('custom_properties');
+            $table->longText('custom_properties')->nullable();
+			$table->longText('agency_custom_properties')->nullable();
 		});
 
     }
@@ -39,6 +40,7 @@ class CreateCustomAttributesTable extends Migration
 
 		Schema::table('levels', function(Blueprint $table){
 			$table->dropColumn('custom_properties');
+			$table->dropColumn('agency_custom_properties');
 		});
     }
 }
