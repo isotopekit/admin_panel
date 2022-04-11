@@ -221,7 +221,7 @@
 					<form action="{{ route('post_agency_settings_email') }}" method="post">
 						{{ csrf_field() }}
 						<div class="card-body">
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Host</label>
 								<div class="col">
 									<input
@@ -238,7 +238,7 @@
 									@endif
 								</div>
 							</div>
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Port</label>
 								<div class="col">
 									<input
@@ -255,7 +255,7 @@
 									@endif
 								</div>
 							</div>
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Encryption</label>
 								<div class="col">
 									<select name="encryption" class="form-control">
@@ -263,7 +263,7 @@
 									</select>
 								</div>
 							</div>
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Username</label>
 								<div class="col">
 									<input
@@ -280,7 +280,7 @@
 									@endif
 								</div>
 							</div>
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Password</label>
 								<div class="col">
 									<input
@@ -336,7 +336,7 @@
 							<div class="d-flex">
 								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
-									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
+									<a href="#" class="btn btn-outline-warning" style="display: none;">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
 								</div>
 
