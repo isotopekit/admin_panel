@@ -146,7 +146,7 @@
 															<form id="access-user-{{ $user->id }}" action="{{ route('post_admin_users_access', $user->id) }}" method="POST" style="display: none;">
 																{{ csrf_field() }}
 															</form>
-															<a class="dropdown-item" href="#">
+															<a class="dropdown-item" href="#" style="display: none;">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 																	<line x1="10" y1="14" x2="21" y2="3"></line>

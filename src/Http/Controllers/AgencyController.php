@@ -25,6 +25,7 @@ class AgencyController extends Controller
 	// dashboard
 	public function index(Request $request)
 	{
+		return redirect()->route('get_agency_users_index');
 		return view('admin_panel::agency.index');
 	}
 
