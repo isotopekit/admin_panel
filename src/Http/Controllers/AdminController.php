@@ -24,6 +24,7 @@ class AdminController extends Controller
 	// dashboard
 	public function index(Request $request)
 	{
+		return redirect()->route('get_admin_users_index');
 		return view('admin_panel::admin.index');
 	}
 
