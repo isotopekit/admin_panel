@@ -42,6 +42,9 @@ Route::group(
 		// change user password (post)
 		Route::post('/users/change-password/{id}', [AdminController::class, 'postChangeUserPassword'])->name('post_admin_users_password');
 
+		// change bonus (post)
+		Route::post('/users/change-bonus/{id}', [AdminController::class, 'postChangeUserBonus'])->name('post_admin_users_bonus');
+
 		// access user
 		Route::post('/users/access/{id}', [AdminController::class, 'postAccessUser'])->name('post_admin_users_access');
 
@@ -116,6 +119,9 @@ Route::group(
 
 		// change user password (post)
 		Route::post('/users/change-password/{id}', [AgencyController::class, 'postChangeUserPassword'])->name('post_agency_users_password');
+
+		// change bonus (post)
+		Route::post('/users/change-bonus/{id}', [AgencyController::class, 'postChangeUserBonus'])->name('post_agency_users_bonus');
 
 		// access user
 		Route::post('/users/access/{id}', [AgencyController::class, 'postAccessUser'])->name('post_agency_users_access');

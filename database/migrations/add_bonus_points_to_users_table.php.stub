@@ -1,0 +1,53 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddBonusPointsToUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+		Schema::table('users', function (Blueprint $table) {
+
+			// branding
+            $table->boolean('remove_branding')->default(false)->nullable();
+            $table->boolean('custom_branding')->default(false)->nullable();
+
+			// team
+			$table->boolean('enable_team')->default(false)->nullable();
+			$table->string('team_members', 5)->nullable();
+
+			// custom domains
+			$table->boolean('enable_custom_domains')->default(false)->nullable();
+			$table->string('custom_domains', 5)->nullable();
+
+            $table->longText('custom_properties')->nullable();
+		});
+	}
+
+	public function down()
+    {
+		Schema::table('users', function(Blueprint $table){
+			
+			// branding
+			$table->dropColumn('remove_branding');
+			$table->dropColumn('custom_branding');
+
+			// team
+			$table->dropColumn('enable_team');
+			$table->dropColumn('team_members');
+
+			// custom domains
+			$table->dropColumn('enable_custom_domains');
+			$table->dropColumn('custom_domains');
+			
+			$table->dropColumn('custom_properties');
+		});
+    }
+}

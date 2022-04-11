@@ -226,6 +226,109 @@
 					</form>
 				</div>
 
+				<div class="card mb-4" id="extra">
+					<div class="card-header">
+						<h3 class="card-title">Bonus
+							<br>
+							<small class="text-muted">
+								These are additional things you want to add to user current plan (features).
+							</small>
+						</h3>
+					</div>
+					<form action="{{ route('post_admin_users_bonus', ['id' => $user->id]) }}" method="post">
+						{{ csrf_field() }}
+						<div class="card-body">
+						
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Remove Branding</label>
+								<div class="col">
+									<select name="remove_branding" id="" class="form-control">
+										<option value="1" {{ old('remove_branding', $user->remove_branding) == 1 ? "selected": "" }}>Yes</option>
+										<option value="0" {{ old('remove_branding', $user->remove_branding) == 0 ? "selected": "" }}>No</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Custom Branding</label>
+								<div class="col">
+									<select name="custom_branding" id="" class="form-control">
+										<option value="1" {{ old('custom_branding', $user->custom_branding) == 1 ? "selected": "" }}>Yes</option>
+										<option value="0" {{ old('custom_branding', $user->custom_branding) == 0 ? "selected": "" }}>No</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Enable Teams</label>
+								<div class="col">
+									<select name="enable_team" id="" class="form-control">
+										<option value="1" {{ old('enable_team', $user->enable_team) == 1 ? "selected": "" }}>Yes</option>
+										<option value="0" {{ old('enable_team', $user->enable_team) == 0 ? "selected": "" }}>No</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Team Members</label>
+								<div class="col">
+									<input type="number" name="team_members" min="0" class="form-control" value="{{ old('team_members', $user->team_members) }}" />
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Enable Custom Domains</label>
+								<div class="col">
+									<select name="enable_custom_domains" id="" class="form-control">
+										<option value="1" {{ old('enable_custom_domains', $user->enable_custom_domains) == 1 ? "selected": "" }}>Yes</option>
+										<option value="0" {{ old('enable_custom_domains', $user->enable_custom_domains) == 0 ? "selected": "" }}>No</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Domains</label>
+								<div class="col">
+									<input type="number" name="custom_domains" min="0" class="form-control" value="{{ old('custom_domains', $user->custom_domains) }}"/>
+								</div>
+							</div>
+
+							@foreach($custom_properties as $custom_property)
+								<div class="form-group mb-3 row">
+									<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
+									<div class="col">
+										<input type="hidden" name="custom_properties_id[]" value="{{ $custom_property->id }}"/>
+										<?php
+											$item_val = 0;
+											if($user->custom_properties != null)
+											{
+												$array_utility = new \IsotopeKit\Utility\ArrayUtils();
+												$search_in_array = $array_utility->objArraySearch(json_decode($user->custom_properties), "id", $custom_property->id);
+												if($search_in_array)
+												{
+													$item_val = $search_in_array->value;
+												}
+											}
+										?>
+										@if($custom_property->type == "int")
+											<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}"/>
+										@else
+											<select name="custom_properties_value[]" class="form-control">
+												<option value="0" @if($item_val == 0) selected @endif>No</option>
+												<option value="1" @if($item_val == 1) selected @endif>Yes</option>
+											</select>
+										@endif
+									</div>
+								</div>
+							@endforeach
+
+						</div>
+						<div class="card-footer">
+							<div class="d-flex">
+								<a href="{{ route('get_admin_users_index') }}" class="btn btn-link">Cancel</a>
+								<button type="submit" class="btn btn-success ms-auto">Update</button>
+							</div>
+						</div>
+					</form>
+				</div>
+
 			</div>
 		</div>
 	</div>

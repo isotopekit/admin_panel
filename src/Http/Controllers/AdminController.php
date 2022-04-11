@@ -127,7 +127,13 @@ class AdminController extends Controller
 					$user->plan_name = $level_info->name;
 				}
 			}
-			return view('admin_panel::admin.users.edit')->with('user', $user)->with('plans', $plans)->with('plan_id', $plan_id);
+			
+			$custom_properties = CustomProperties::get();
+
+			return view('admin_panel::admin.users.edit')
+				->with('user', $user)->with('plans', $plans)
+				->with('plan_id', $plan_id)
+				->with('custom_properties', $custom_properties);
 		}
 		else
 		{
@@ -174,6 +180,54 @@ class AdminController extends Controller
 					]);
 				}
 				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.success', 'User Updated.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+			}
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.error', 'Something went wrong');
+		}
+	}
+
+	public function postChangeUserBonus(Request $request, $id)
+	{
+		try
+		{
+			$user = User::find($id);
+			if($user)
+			{
+				$custom_property = [];
+				$custom_properties_id = $request->input('custom_properties_id');
+				$custom_properties_value = $request->input('custom_properties_value');
+				foreach ($custom_properties_id as $key => $val) {
+					$item = [
+						"id"	=>	$val,
+						"value"	=>	$custom_properties_value[$key]
+					];
+					array_push($custom_property, $item);
+				}
+
+				User::where('id', $id)->update([	
+					// branding
+					'remove_branding'	=>	$request->input('remove_branding'),
+					'custom_branding'	=>	$request->input('custom_branding'),
+
+					// team
+					'enable_team'	=>	$request->input('enable_team'),
+					'team_members'	=>	$request->input('team_members'),
+
+					// custom domains
+					'enable_custom_domains'	=>	$request->input('enable_custom_domains'),
+					'custom_domains'	=>	$request->input('custom_domains'),
+
+					'custom_properties'		=>	json_encode($custom_property)
+				]);
+				
+				return redirect()->route('get_admin_users_edit', ['id'	=>	$id])->with('status.success', 'Bonus Settings Updated.');
+
 			}
 			else
 			{
