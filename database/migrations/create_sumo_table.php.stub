@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSumoTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+		// users
+        Schema::create('sumo_codes', function (Blueprint $table) {
+            $table->id();
+            $table->text('sumo_code');
+            $table->string('plan_type', 30);
+			$table->string('user_id', 10)->nullable();
+        });
+
+		Schema::table('users', function (Blueprint $table) {
+            $table->string('code_used_one')->nullable();
+			$table->string('code_used_two')->nullable();
+			$table->string('code_used_three')->nullable();
+			$table->string('code_used_four')->nullable();
+			$table->string('code_used_five')->nullable();
+		});
+
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('sumo_codes');
+
+		Schema::table('users', function(Blueprint $table){
+			$table->dropColumn('code_used_one');
+			$table->dropColumn('code_used_two');
+			$table->dropColumn('code_used_three');
+			$table->dropColumn('code_used_four');
+			$table->dropColumn('code_used_five');
+		});
+    }
+}

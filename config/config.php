@@ -9,5 +9,8 @@ return [
 	],
 	'domain'	=>	'isotopekit.com',
 	'route_admin'	=>	'admin',
-	'route_agency'	=>	'agency'
+	'route_agency'	=>	'agency',
+	'appsumo'	=>	[
+		'show'	=>	true
+	]
 ];

@@ -34,6 +34,14 @@ class AdminController extends Controller
 		$plans = Levels::where('id', '!=', '1')->get();
 		$users = User::where('id', '!=', '1')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
 
+		if($request->filter)
+		{
+			if($request->filter == "appsumo")
+			{
+				$users = User::where('id', '!=', '1')->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
+			}
+		}
+
 		foreach($users as $user)
 		{
 			$user->plan_name = null;
