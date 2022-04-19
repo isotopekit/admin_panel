@@ -85,20 +85,24 @@
 							</a>
 						</li>
 
-						<li class="nav-item" style="display: none;">
-							<a class="nav-link" href="{{ route('get_admin_domains_index') }}">
-								<span class="nav-link-icon d-md-none d-lg-inline-block">
-									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-										<path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
-										<path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
-									</svg>
-								</span>
-								<span class="nav-link-title">
-									Domains
-								</span>
-							</a>
-						</li>
+						@if(array_key_exists('domains', config('isotopekit_admin')))
+							@if(config('isotopekit_admin.domains')['show'] == true)
+								<li class="nav-item">
+									<a class="nav-link" href="{{ route('get_admin_domains_index') }}">
+										<span class="nav-link-icon d-md-none d-lg-inline-block">
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+												<path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+												<path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+											</svg>
+										</span>
+										<span class="nav-link-title">
+											Domains
+										</span>
+									</a>
+								</li>
+							@endif
+						@endif
 
 						<li class="nav-item">
 							<a class="nav-link" href="{{ route('get_admin_plans_index') }}">

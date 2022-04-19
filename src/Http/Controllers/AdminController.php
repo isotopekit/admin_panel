@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use IsotopeKit\AdminPanel\Models\CustomProperties;
 use IsotopeKit\AuthAPI\Models\User;
 use IsotopeKit\AuthAPI\Models\User_Role;
+use IsotopeKit\AuthAPI\Models\Domains;
 use IsotopeKit\AuthAPI\Models\Levels;
 use IsotopeKit\AuthAPI\Models\Site;
 
@@ -337,7 +338,23 @@ class AdminController extends Controller
 	// domains
 	public function getDomains(Request $request)
 	{
-		return view('admin_panel::admin.domains.index');
+		$domains = Domains::get();
+		return view('admin_panel::admin.domains.index')->with('domains', $domains);
+	}
+
+	public function getDomainsCheckAll(Request $request)
+	{
+		return "all domains scheduled for checking";
+	}
+
+	public function getDomainsCheck($id, Request $request)
+	{
+		return "domain scheduled for checking";
+	}
+
+	public function getDomainsRefresh(Request $request)
+	{
+		return "all domains scheduled for refresh";
 	}
 
 	// plans

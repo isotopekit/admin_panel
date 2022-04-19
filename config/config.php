@@ -12,5 +12,8 @@ return [
 	'route_agency'	=>	'agency',
 	'appsumo'	=>	[
 		'show'	=>	true
+	],
+	'domains'	=>	[
+		'show'	=>	true
 	]
 ];

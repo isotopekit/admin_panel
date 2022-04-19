@@ -55,6 +55,10 @@ Route::group(
 		
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
+
+		Route::get('/domains-check-all', [AdminController::class, 'getDomainsCheckAll'])->name('get_admin_domains_check');
+		Route::get('/domains-check/{id}', [AdminController::class, 'getDomainsCheck'])->name('get_admin_domains_check_index');
+		Route::get('/domains-refresh-all', [AdminController::class, 'getDomainsRefresh'])->name('get_admin_domains_refresh');
 		
 		// plans
 		Route::get('/plans', [AdminController::class, 'getPlans'])->name('get_admin_plans_index');
