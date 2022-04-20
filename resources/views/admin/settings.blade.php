@@ -124,7 +124,7 @@
 								</div>
 							</div>
 
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Theme</label>
 								<div class="col">
 									<select name="theme" required class="form-control">
@@ -134,7 +134,7 @@
 								</div>
 							</div>
 
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Default Language</label>
 								<div class="col">
 									<select name="language" required class="form-control">

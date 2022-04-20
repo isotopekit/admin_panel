@@ -74,7 +74,7 @@
 					<div class="card-header">
 						<h3 class="card-title">General</h3>
 					</div>
-					<form action="{{ route('post_agency_settings_general') }}" method="post">
+					<form action="{{ route('post_agency_settings_general') }}" method="post" enctype="multipart/form-data">
 						{{ csrf_field() }}
 						<div class="card-body">
 							<div class="form-group mb-3 row">
@@ -113,18 +113,24 @@
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Logo</label>
 								<div class="col">
-									<input type="file" class="form-control" placeholder="" />
+									@if($settings->logo)
+										<img src="{{ asset($settings->logo) }}" class="img-fluid" style="height: 100px;"/>
+									@endif
+									<input type="file" class="form-control" name="logo" placeholder="" />
 								</div>
 							</div>
 
 							<div class="form-group mb-3 row">
 								<label class="form-label col-12 col-sm-3 col-form-label">Favicon</label>
 								<div class="col">
-									<input type="file" class="form-control" placeholder="" />
+									@if($settings->favicon)
+										<img src="{{ asset($settings->favicon) }}" class="img-fluid" style="height: 100px;"/>
+									@endif
+									<input type="file" class="form-control" name="favicon" placeholder="" />
 								</div>
 							</div>
 
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Theme</label>
 								<div class="col">
 									<select name="theme" required class="form-control">
@@ -134,7 +140,7 @@
 								</div>
 							</div>
 
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Default Language</label>
 								<div class="col">
 									<select name="language" required class="form-control">

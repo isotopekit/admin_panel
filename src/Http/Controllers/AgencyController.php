@@ -20,6 +20,8 @@ use IsotopeKit\AdminPanel\Models\CustomProperties;
 use IsotopeKit\AuthAPI\Models\Levels;
 use IsotopeKit\AuthAPI\Models\Site;
 
+use Illuminate\Support\Facades\Storage;
+
 class AgencyController extends Controller
 {
 
@@ -467,12 +469,46 @@ class AgencyController extends Controller
 				return redirect()->route('get_agency_settings')->withErrors($isValid)->withInput();
 			}
 
+			$file_to_upload = $request->file('favicon');
+			$path = null;
+
+			if($file_to_upload)
+			{
+				$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
+				$random_name = $random_text_generator->get_random_value_in_string(10);
+
+                Storage::disk('uploads')->putFileAs('logos', $request->file('favicon'), $random_name);
+                $path = "/uploads/logos/".$random_name;
+			}
+			else
+			{
+				$site_settings = Site::where('agency_id', Auth::id())->first();
+                $path = $site_settings->favicon;
+            }
+            
+            $file_to_upload_logo = $request->file('logo');
+			$path_logo = null;
+
+			if($file_to_upload_logo)
+			{
+				$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
+				$random_name = $random_text_generator->get_random_value_in_string(10);
+
+                Storage::disk('uploads')->putFileAs('logos', $request->file('logo'), $random_name);
+                $path_logo = "/uploads/logos/".$random_name;
+			}
+			else
+			{
+				$site_settings = Site::where('agency_id', Auth::id())->first();
+                $path_logo = $site_settings->logo;
+			}
+
 			Site::where('agency_id', Auth::id())->update([
 				'name'		=>	$request->input('name'),
 				'language'	=>	$request->input('language'),
 				'theme'		=>	$request->input('theme'),
-				'logo'		=>	$request->input('logo'),
-				'favicon'	=>	$request->input('favicon'),
+				'logo'		=>	$path_logo,
+				'favicon'	=>	$path,
 				'page_description'	=>	$request->input('page_description'),
 				'support_email'		=>	$request->input('support_email'),
 				'support_url'		=>	$request->input('support_url'),
