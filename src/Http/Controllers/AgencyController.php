@@ -59,6 +59,8 @@ class AgencyController extends Controller
 
 		$can_add_more = false;
 
+		$total_users = 0;
+
 		// agency plan
 		$get_agency_levels = User_Role::where('user_id', Auth::id())->first();
 		if($get_agency_levels)
@@ -81,7 +83,8 @@ class AgencyController extends Controller
 
 		return view('admin_panel::agency.users.index')
 				->with('users', $users)
-				->with('can_add_more', $can_add_more);
+				->with('can_add_more', $can_add_more)
+				->with('total_users', $total_users);
 	}
 
 	// add user (post)
