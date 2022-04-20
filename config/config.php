@@ -16,5 +16,6 @@ return [
 	],
 	'domains'	=>	[
 		'show'	=>	true
-	]
+	],
+	'mail_subject' => 'Welcome to App'
 ];

@@ -163,6 +163,62 @@ class AgencyController extends Controller
 			// $app_library = new \App\Libraries\Utility();
 			// $res = $app_library->send_email_agency_generic($request->input('first_name'), $request->input('email'), $request->input('password'), 0);
 
+			if($user)
+			{
+				$get_site_settings = Site::where('id', '1')->first();
+				if($get_site_settings != null)
+				{
+					$site_settings = $get_site_settings;
+				}
+
+				// set agency settings
+				$get_agency_settings = Site::where('agency_id', Auth::id())->first();
+				if($get_agency_settings)
+				{
+					if($get_agency_settings->name != null)
+					{
+						$site_settings->name = $get_agency_settings->name;
+					}
+
+					if($get_agency_settings->external_url != null)
+					{
+						$site_settings->external_url = $get_agency_settings->external_url;
+					}
+
+					if($get_agency_settings->from_address != null)
+					{
+						$site_settings->from_address = $get_agency_settings->from_address;
+						$site_settings->from_name = $get_agency_settings->from_name;
+					}
+				}
+
+				$data = [
+					'email' =>  $request->input('email'),
+					'name'  =>  $request->input('first_name'),
+					'password'  =>  $request->input('password'),
+					'app_name'	=>	$site_settings->name,
+					'app_domain'	=>	$site_settings->external_url
+				];
+
+				$emails_to = array(
+					'email' => $request->input('email'),
+					'name' => $request->input('first_name'),
+					'subject'	=>	config('isotopekit_admin.mail_subject')
+				);
+
+				Config::set('mail.encryption',$site_settings->encryption);
+				Config::set('mail.host', $site_settings->host);
+				Config::set('mail.port', $site_settings->port);
+				Config::set('mail.username', $site_settings->username);
+				Config::set('mail.password', $site_settings->password);
+				Config::set('mail.from',  ['address' => $site_settings->from_address , 'name' => $site_settings->from_name]);
+				
+				Mail::send('admin_panel::emails.welcome', $data, function($message) use ($emails_to)
+				{
+					$message->to($emails_to['email'], $emails_to['name'])->subject($emails_to['subject']);
+				});
+			}
+
 			return redirect()->route('get_agency_users_index')->with('status.success', 'User Created.');
 		}
 		catch(\Exception $ex)
