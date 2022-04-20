@@ -203,7 +203,7 @@ class AgencyController extends Controller
 				$emails_to = array(
 					'email' => $request->input('email'),
 					'name' => $request->input('first_name'),
-					'subject'	=>	config('isotopekit_admin.mail_subject')
+					'subject'	=> 'Welcome to '. $site_settings->name
 				);
 
 				Config::set('mail.encryption',$site_settings->encryption);
