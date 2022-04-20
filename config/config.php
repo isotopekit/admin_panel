@@ -11,6 +11,7 @@ return [
 	'domain'	=>	'isotopekit.com',
 	'route_admin'	=>	'admin',
 	'route_agency'	=>	'agency',
+	'route_user'	=>	'user',
 	'appsumo'	=>	[
 		'show'	=>	true
 	],

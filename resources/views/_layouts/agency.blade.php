@@ -111,6 +111,11 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="navbar-nav flex-row order-md-last">
+					<div class="nav-item pe-2">
+						<a class="btn btn-outline-primary" href="/{{ config('isotopekit_admin.route_user') }}">
+							Access as User
+						</a>
+					</div>
 					<div class="nav-item dropdown">
 						<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
 							aria-label="Open user menu">
