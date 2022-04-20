@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'ip'		=>	'1.2.3.4.5',
 	'app_name'	=>	'IsotopeKit',
 	'links'		=>	[
 		'feedback'	=>	'https://feedback.isotopekit.com',

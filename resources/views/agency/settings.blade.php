@@ -391,13 +391,18 @@
 									<div>
 										to connect domain, Point your domain (example.com)
 										<br>
-										<b>A</b> <b>domain.com</b> points to <b>X.XX.X.XX</b>
+										<b>A</b> <b>domain.com</b> points to <b>{{ config('isotopekit_admin.ip') }}</b>
 										<br>
-										<b>A</b> <b>*.domain.com</b> points to <b>X.XX.X.XX</b>
+										<b>A</b> <b>*.domain.com</b> points to <b>{{ config('isotopekit_admin.ip') }}</b>
 										<br>
 										in your domain DNS settings
 									</div>
 								</div>
+							</div>
+							<div class="alert alert-important alert-danger bg-red-lt">
+								sub domain (custom.example.com) will not work.
+								<br/><br/>
+								Some of the featurs e.g. video / playlists pages will not work if you connect sub domain here. Also, allow up to 48 hours for domain to propagate and SSL to be issued.
 							</div>
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">External URL</label>
