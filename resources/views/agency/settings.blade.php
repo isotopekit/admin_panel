@@ -426,7 +426,7 @@
 							<div class="d-flex">
 								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
-									<a href="#" class="btn btn-outline-warning">Test Configuration</a>
+									<a href="#" class="btn btn-outline-warning" style="display: none;">Test Configuration</a>
 									<button type="submit" class="btn btn-success">Save Changes</button>
 								</div>
 

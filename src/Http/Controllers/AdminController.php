@@ -335,11 +335,18 @@ class AdminController extends Controller
 		return redirect('/user/');
 	}
 
-	// domains
+	// custom domains
 	public function getDomains(Request $request)
 	{
 		$domains = Domains::get();
 		return view('admin_panel::admin.domains.index')->with('domains', $domains);
+	}
+
+	// agency domains
+	public function getAgencyDomains(Request $request)
+	{
+		$domains = Site::where('external_url', '!=', null)->where('id', '!=', 1)->get();
+		return view('admin_panel::admin.domains.agency')->with('domains', $domains);
 	}
 
 	public function getDomainsCheckAll(Request $request)

@@ -56,6 +56,8 @@ Route::group(
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');
 
+		Route::get('/agency-domains', [AdminController::class, 'getAgencyDomains'])->name('get_admin_agency_domains_index');
+
 		Route::get('/domains-check-all', [AdminController::class, 'getDomainsCheckAll'])->name('get_admin_domains_check');
 		Route::get('/domains-check/{id}', [AdminController::class, 'getDomainsCheck'])->name('get_admin_domains_check_index');
 		Route::get('/domains-refresh-all', [AdminController::class, 'getDomainsRefresh'])->name('get_admin_domains_refresh');
