@@ -144,7 +144,7 @@
 				<div class="container-xl">
 					<div class="row text-center align-items-center flex-row-reverse">
 						<div class="col-lg-auto ms-lg-auto">
-							<ul class="list-inline list-inline-dots mb-0">
+							<ul class="list-inline list-inline-dots mb-0" style="display: none;">
 								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['feedback'] }}" class="link-secondary">Feedback</a></li>
 								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['support'] }}" class="link-secondary">Support</a></li>
 								<li class="list-inline-item"><a target="blank" href="{{ config('isotopekit_admin.links')['about'] }}" target="_blank" class="link-secondary" rel="noopener">About</a></li>
@@ -153,7 +153,7 @@
 						<div class="col-12 col-lg-auto mt-3 mt-lg-0">
 							<ul class="list-inline list-inline-dots mb-0">
 								<li class="list-inline-item">
-									&copy; 2021
+									&copy; 2022
 									<a href="/" class="link-secondary">{{ IsotopeKit\AuthAPI\Models\Site::settings()['name'] }}</a>
 								</li>
 							</ul>

@@ -210,7 +210,7 @@
 						<div class="col-12 col-lg-auto mt-3 mt-lg-0">
 							<ul class="list-inline list-inline-dots mb-0">
 								<li class="list-inline-item">
-									&copy; 2021
+									&copy; 2022
 									<a href="/" class="link-secondary">{{ config('isotopekit_admin.app_name') }}</a>
 								</li>
 							</ul>
