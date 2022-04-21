@@ -147,7 +147,7 @@
 								</div>
 							</div>
 							
-							<div class="form-group mb-3 row">
+							<div class="form-group mb-3 row" style="display: none;">
 								<label class="form-label col-12 col-sm-3 col-form-label">Plan / Level</label>
 								<div class="col">
 									<select name="plan_id" class="form-control">
@@ -270,7 +270,7 @@
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Team Members</label>
 								<div class="col">
-									<input type="number" name="team_members" min="0" class="form-control" value="{{ old('team_members', $user->team_members) }}" />
+									<input type="number" name="team_members" min="0" max="{{ Auth::user()->levelInfo()['team_members'] }}" class="form-control" value="{{ old('team_members', $user->team_members) }}" @if(Auth::user()->levelInfo()['enable_team'] != true) disabled @endif />
 								</div>
 							</div>
 
@@ -286,11 +286,11 @@
 							<div class="form-group mb-3 row">
 								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Domains</label>
 								<div class="col">
-									<input type="number" name="custom_domains" min="0" class="form-control" value="{{ old('custom_domains', $user->custom_domains) }}"/>
+									<input type="number" name="custom_domains" min="0" max="{{ Auth::user()->levelInfo()['custom_domains'] }}" class="form-control" value="{{ old('custom_domains', $user->custom_domains) }}" @if(Auth::user()->levelInfo()['enable_custom_domains'] != true) disabled @endif/>
 								</div>
 							</div>
 
-							@foreach($custom_properties as $custom_property)
+							@foreach($custom_properties as $key => $custom_property)
 								<div class="form-group mb-3 row">
 									<label for="" class="form-label col-12 col-sm-3 col-form-label">{{ $custom_property->name }}</label>
 									<div class="col">
@@ -308,7 +308,7 @@
 											}
 										?>
 										@if($custom_property->type == "int")
-											<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}"/>
+											<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}" max="{!! json_decode(Auth::user()->levelInfo()['custom_properties'])[$key]->value !!}"/>
 										@else
 											<select name="custom_properties_value[]" class="form-control">
 												<option value="0" @if($item_val == 0) selected @endif>No</option>

@@ -86,7 +86,7 @@
 												<polyline points="6 15 12 9 18 15" />
 											</svg>
 										</th>
-										<th>Plan</th>
+										<th style="display: none;">Plan</th>
 										<th>Status</th>
 										<th>Added on</th>
 										<th class="w-1"></th>
@@ -111,7 +111,7 @@
 													</div>
 												</div>
 											</td>
-											<td>
+											<td style="display: none;">
 												@if($user->plan_name != null)
 												<span class="badge bg-blue-lt">{{ $user->plan_name }}</span>
 												@endif
@@ -146,7 +146,7 @@
 															<form id="access-user-{{ $user->id }}" action="{{ route('post_agency_users_access', $user->id) }}" method="POST" style="display: none;">
 																{{ csrf_field() }}
 															</form>
-															<a class="dropdown-item" href="#">
+															<a class="dropdown-item" href="#" style="display: none;">
 																<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 																	<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 																	<line x1="10" y1="14" x2="21" y2="3"></line>
@@ -323,8 +323,8 @@
 						</div>
 
 						<div class="mb-3">
-							<label class="form-label">Plan / Level</label>
-							User Features will be same as Your Current Plan (except agency specific features)
+							<label class="form-label"><span class="badge bg-info">Tip</span></label>
+							You can customized User Features after account Setup, from "Edit" Section.
 						</div>
 					</div>
 					<div class="modal-footer">
