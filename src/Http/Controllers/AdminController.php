@@ -41,6 +41,11 @@ class AdminController extends Controller
 			{
 				$users = User::where('id', '!=', '1')->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
 			}
+
+			if($request->filter == "direct")
+			{
+				$users = User::where('id', '!=', '1')->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->get();
+			}
 		}
 
 		foreach($users as $user)
