@@ -2,6 +2,8 @@
 @section('title','Users')
 @section('header')
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap5.min.css"/>
+
 <style>
 	.table-responsive {
 		overflow-x: visible;
@@ -87,6 +89,9 @@
 											</svg>
 										</th>
 										<th>Plan</th>
+										@if($filter == "appsumo")
+											<th>Code Used</th>
+										@endif
 										<th>Status</th>
 										<th>Added on</th>
 										<th class="w-1"></th>
@@ -116,6 +121,39 @@
 												<span class="badge bg-blue-lt">{{ $user->plan_name }}</span>
 												@endif
 											</td>
+											@if($filter == "appsumo")
+											<td>
+												@if($user->code_used_one)
+													<span class="badge bg-secondary">
+														{{ $user->code_used_one }}
+													</span>
+												@endif
+												@if($user->code_used_two)
+													<br>
+													<span class="badge bg-secondary">
+														{{ $user->code_used_two }}
+													</span>
+												@endif
+												@if($user->code_used_three)
+													<br>
+													<span class="badge bg-secondary">
+														{{ $user->code_used_three }}
+													</span>
+												@endif
+												@if($user->code_used_four)
+													<br>
+													<span class="badge bg-secondary">
+														{{ $user->code_used_four }}
+													</span>
+												@endif
+												@if($user->code_used_five)
+													<br>
+													<span class="badge bg-secondary">
+														{{ $user->code_used_five }}
+													</span>
+												@endif
+											</td>
+											@endif
 											<td>
 												@if($user->enabled)
 												<span class="badge bg-success me-1"></span> Active
@@ -356,6 +394,16 @@
 @endsection
 
 @section('footer')
+
+	<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
+
+	<script>
+		$('.datatable').DataTable({
+			// dom: '<"top"i>rt<"bottom"flp><"clear">'
+			dom: '<"card-body"<"d-flex"<l><"ms-auto"f>>>rt<"card-body"<"d-flex"<i><"ms-auto"p>>><"clear">'
+		});
+	</script>
 
 	<script>
 		var _mode = getUrlVars()["mode"];

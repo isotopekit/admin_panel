@@ -35,15 +35,19 @@ class AdminController extends Controller
 		$plans = Levels::where('id', '!=', '1')->get();
 		$users = User::where('id', '!=', '1')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
 
+		$filter = null;
+
 		if($request->filter)
 		{
 			if($request->filter == "appsumo")
 			{
-				$users = User::where('id', '!=', '1')->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
+				$filter = "appsumo";
+				$users = User::where('id', '!=', '1')->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->get();
 			}
 
 			if($request->filter == "direct")
 			{
+				$filter = "direct";
 				$users = User::where('id', '!=', '1')->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->get();
 			}
 		}
@@ -66,6 +70,7 @@ class AdminController extends Controller
 		}
 
 		return view('admin_panel::admin.users.index')
+				->with('filter', $filter)	
 				->with('plans', $plans)
 				->with('users', $users);
 	}
