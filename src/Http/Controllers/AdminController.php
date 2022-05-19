@@ -32,8 +32,9 @@ class AdminController extends Controller
 	// users
 	public function getUsers(Request $request)
 	{
+		$admin_accounts = config('isotopekit_admin.account_list');
 		$plans = Levels::where('id', '!=', '1')->get();
-		$users = User::where('id', '!=', '1')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
+		$users = User::whereNotIn('id', $admin_accounts)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
 
 		$filter = null;
 
@@ -42,13 +43,13 @@ class AdminController extends Controller
 			if($request->filter == "appsumo")
 			{
 				$filter = "appsumo";
-				$users = User::where('id', '!=', '1')->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->get();
+				$users = User::whereNotIn('id', $admin_accounts)->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->get();
 			}
 
 			if($request->filter == "direct")
 			{
 				$filter = "direct";
-				$users = User::where('id', '!=', '1')->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->get();
+				$users = User::whereNotIn('id', $admin_accounts)->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->get();
 			}
 		}
 
