@@ -830,7 +830,7 @@ class AdminController extends Controller
 				$messages = $isValid->messages();
 				return redirect()->route('get_admin_settings')->withErrors($isValid)->withInput();
 			}
-			$user = User::find('1');
+			$user = User::find(Auth::id());
 			if($user)
 			{
 				$user->password = bcrypt($request->input('password'));
