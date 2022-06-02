@@ -43,13 +43,13 @@ class AdminController extends Controller
 			if($request->filter == "appsumo")
 			{
 				$filter = "appsumo";
-				$users = User::whereNotIn('id', $admin_accounts)->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->get();
+				$users = User::whereNotIn('id', $admin_accounts)->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->orderByDesc('id')->get();
 			}
 
 			if($request->filter == "direct")
 			{
 				$filter = "direct";
-				$users = User::whereNotIn('id', $admin_accounts)->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->get();
+				$users = User::whereNotIn('id', $admin_accounts)->where('created_by', 'direct')->select('id','first_name', 'last_name', 'email', 'enabled', 'created_by', 'created_at')->orderByDesc('id')->get();
 			}
 		}
 
