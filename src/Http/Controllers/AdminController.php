@@ -34,7 +34,7 @@ class AdminController extends Controller
 	{
 		$admin_accounts = config('isotopekit_admin.account_list');
 		$plans = Levels::where('id', '!=', '1')->get();
-		$users = User::whereNotIn('id', $admin_accounts)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->get();
+		$users = User::whereNotIn('id', $admin_accounts)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->orderByDesc('id')->get();
 
 		$filter = null;
 
