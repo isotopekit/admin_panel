@@ -38,6 +38,7 @@ class AgencyController extends Controller
 		$users = User::where('id', '!=', '1')
 					->where('created_by', Auth::id())
 					->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')
+					->orderBy('id', 'desc')
 					->get();
 
 		foreach($users as $user)
@@ -130,7 +131,7 @@ class AgencyController extends Controller
 				'first_name'    =>  'required|string|min:3',
                 'last_name'     =>  'required|string|min:3',
                 'email'         =>  'required|string|email|min:5|max:50|unique:users',
-                'password'      =>  'required|string|min:6|max:20'
+                'password'      =>  'required|string|min:6|max:20|confirmed'
 			]);
 			
 			if($isValid->fails()){
