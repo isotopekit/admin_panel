@@ -210,6 +210,15 @@
 									@endif
 								</div>
 							</div>
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Show Plan Info to Users</label>
+								<div class="col">
+									<select name="show_plan_info" class="form-control">
+										<option @if($settings->show_plan_info == true) selected @endif value="1">Yes</option>
+										<option @if($settings->show_plan_info == false) selected @endif value="0">No</option>
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class="card-footer">
 							<div class="d-flex">

@@ -573,7 +573,8 @@ class AgencyController extends Controller
 				'support_email'		=>	$request->input('support_email'),
 				'support_url'		=>	$request->input('support_url'),
 				'show_training_url'	=>	$request->input('show_training_url'),
-				'training_url'		=>	$request->input('training_url')
+				'training_url'		=>	$request->input('training_url'),
+				'show_plan_info'	=>	$request->input('show_plan_info')
 			]);
 
 			return redirect()->route('get_agency_settings')->with('status.success', 'General Settings Updated.');
