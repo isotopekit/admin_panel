@@ -34,7 +34,7 @@ class AdminController extends Controller
 	{
 		$admin_accounts = config('isotopekit_admin.account_list');
 		$plans = Levels::where('id', '!=', '1')->get();
-		$users = User::whereNotIn('id', $admin_accounts)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at')->orderByDesc('id')->get();
+		$users = User::whereNotIn('id', $admin_accounts)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'created_by')->orderByDesc('id')->get();
 
 		$filter = null;
 
@@ -43,7 +43,7 @@ class AdminController extends Controller
 			if($request->filter == "appsumo")
 			{
 				$filter = "appsumo";
-				$users = User::whereNotIn('id', $admin_accounts)->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->orderByDesc('id')->get();
+				$users = User::whereNotIn('id', $admin_accounts)->where('code_used_one', '!=', null)->select('id','first_name', 'last_name', 'email', 'enabled', 'created_at', 'created_by', 'code_used_one', 'code_used_two', 'code_used_three', 'code_used_four', 'code_used_five')->orderByDesc('id')->get();
 			}
 
 			if($request->filter == "direct")
@@ -56,6 +56,9 @@ class AdminController extends Controller
 		foreach($users as $user)
 		{
 			$user->plan_name = null;
+			$user->owner_details = null;
+			$user->agency_details = null;
+
 			// get user level
 			$fetch_roles = User_Role::where('user_id', '=', $user->id)->first();
 			if($fetch_roles)
@@ -66,6 +69,29 @@ class AdminController extends Controller
 				{
 					$user->plan_name = $level_info->name;
 				}
+			}
+
+			// agency details
+			if($user->created_by != "direct")
+			{
+				$owner_details = User::where('id', $user->created_by)->first();
+				if($owner_details)
+				{
+					$user->owner_details = $owner_details;
+					$agency_details = Site::where('agency_id', $owner_details->id)->first();
+					if($agency_details)
+					{
+						$user->agency_details = $agency_details;
+					}
+				}
+			}
+
+			// check if is agency
+			$user->is_agency = false;
+			$get_sub_users = User::where('created_by', $user->id)->count();
+			if($get_sub_users > 0)
+			{
+				$user->is_agency = true;
 			}
 
 		}
