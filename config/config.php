@@ -19,5 +19,8 @@ return [
 		'show'	=>	true
 	],
 	'mail_subject' => 'Welcome to App',
-	'account_list'	=>	[1]
+	'account_list'	=>	[1],
+	'agency_training_link'	=>	'https://training.isotopekit.com',
+	'agency_guide_link'	=>	'https://guide.isotopekit.com',
+	'agency_guide_link_text'	=>	'Guide'
 ];

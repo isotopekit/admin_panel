@@ -99,6 +99,57 @@
 								</span>
 							</a>
 						</li>
+
+						@if(array_key_exists('agency_training_link', config('isotopekit_admin')))
+							@if(config('isotopekit_admin.agency_training_link') != '')
+							<li class="nav-item">
+								<a class="nav-link" target="blank" href="{{ config('isotopekit_admin.agency_training_link') }}">
+									<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-movie" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+										<rect x="4" y="4" width="16" height="16" rx="2"></rect>
+										<line x1="8" y1="4" x2="8" y2="20"></line>
+										<line x1="16" y1="4" x2="16" y2="20"></line>
+										<line x1="4" y1="8" x2="8" y2="8"></line>
+										<line x1="4" y1="16" x2="8" y2="16"></line>
+										<line x1="4" y1="12" x2="20" y2="12"></line>
+										<line x1="16" y1="8" x2="20" y2="8"></line>
+										<line x1="16" y1="16" x2="20" y2="16"></line>
+									</svg>
+									</span>
+									<span class="nav-link-title">
+										Training
+									</span>
+								</a>
+							</li>
+							@endif
+						@endif
+
+						@if(array_key_exists('agency_guide_link', config('isotopekit_admin')))
+							@if(config('isotopekit_admin.agency_guide_link') != '')
+							<li class="nav-item">
+								<a class="nav-link" target="blank" href="{{ config('isotopekit_admin.agency_guide_link') }}">
+									<span class="nav-link-icon d-md-none d-lg-inline-block">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+										<path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z"></path>
+										<path d="M19 16h-12a2 2 0 0 0 -2 2"></path>
+										<path d="M9 8h6"></path>
+									</svg>
+									</span>
+									<span class="nav-link-title">
+										@if(array_key_exists('agency_guide_link_text', config('isotopekit_admin')))
+											@if(config('isotopekit_admin.agency_guide_link_text') != '')
+												{{ config('isotopekit_admin.agency_guide_link_text') != '' ? config('isotopekit_admin.agency_guide_link_text') : 'Guide' }}
+											@endif
+										@else
+											Guide
+										@endif
+									</span>
+								</a>
+							</li>
+							@endif
+						@endif
 						
 					</ul>
 				</div>
