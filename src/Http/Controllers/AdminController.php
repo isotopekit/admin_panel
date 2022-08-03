@@ -434,7 +434,7 @@ class AdminController extends Controller
 
 			try
 			{
-				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, "1.1.1.1");
+				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, config('isotopekit_admin.ip'));
 				
 				$domain_status = $doamin_verification->verify();
 
@@ -519,7 +519,7 @@ class AdminController extends Controller
 
 		try
 		{
-			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, "1.1.1.1");
+			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, config('isotopekit_admin.ip'));
 			$domain_status = $doamin_verification->verify();
 
 			if($domain_status == "managed_by_cloudflare")
@@ -600,7 +600,7 @@ class AdminController extends Controller
 
 		try
 		{
-			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, "1.1.1.1");
+			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, config('isotopekit_admin.ip'));
 			$domain_status = $doamin_verification->verify();
 
 			if($domain_status == "managed_by_cloudflare")
@@ -682,7 +682,7 @@ class AdminController extends Controller
 
 			try
 			{
-				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, "1.1.1.1");
+				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, config('isotopekit_admin.ip'));
 				
 				$domain_status = $doamin_verification->verify();
 
