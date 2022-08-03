@@ -38,6 +38,14 @@
 				</div>
 			</div>
 		</div>
+		<style>
+			.alert {
+				margin-bottom: 0px;
+				margin-top: 16px;
+			}
+		</style>
+		@component('admin_panel::_layouts.components.alert')
+		@endcomponent
 	</div>
 
 	<!-- content -->

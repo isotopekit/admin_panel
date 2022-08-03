@@ -423,17 +423,343 @@ class AdminController extends Controller
 
 	public function getDomainsCheckAll(Request $request)
 	{
-		return "all domains scheduled for checking";
+		$domains = Domains::where('checked', false)->orWhere('checked', null)->get();
+		
+		foreach($domains as $domain_info)
+		{
+			if($domain_info == null)
+			{
+				continue;
+			}
+
+			try
+			{
+				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, "1.1.1.1");
+				
+				$domain_status = $doamin_verification->verify();
+
+				if($domain_status == "managed_by_cloudflare")
+				{
+					// return "managed by cloudflare";
+					Domains::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+
+					continue;
+				}
+
+				if($domain_status == "not_pointing_to_ip")
+				{
+					// return "not pointing to correct IP";
+					Domains::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	true,
+						'is_secured'	=>	false
+					]);
+
+					continue;
+				}
+
+				if($domain_status == "ssl_enabled")
+				{
+					// return "now secured";
+					Domains::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+					
+					continue;
+				}
+
+				if($domain_status == "already_secured")
+				{
+					// return "already secured";
+					Domains::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+					
+					continue;
+				}
+
+				if($domain_status == "something_went_wrong")
+				{
+					// return "something went wrong";
+					Domains::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	true,
+						'is_secured'	=>	false
+					]);
+					
+					continue;
+				}
+			}
+			catch(\Exception $ex)
+			{
+				continue;
+			}
+		}
+
+		return redirect($request->header('Referer'))->with('status.success', 'All Domains checked');
 	}
 
 	public function getDomainsCheck($id, Request $request)
 	{
-		return "domain scheduled for checking";
+		
+		// check domain info exists in database
+		$domain_info = Domains::where('id', $id)->first();
+		if($domain_info == null)
+		{
+			return redirect($request->header('Referer'))->with('status.error', 'Domain not found');
+		}
+
+		try
+		{
+			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->url, "1.1.1.1");
+			$domain_status = $doamin_verification->verify();
+
+			if($domain_status == "managed_by_cloudflare")
+			{
+				// return "managed by cloudflare";
+				Domains::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'Cloudflare Managed Domain: '. $domain_info->url);
+			}
+
+			if($domain_status == "not_pointing_to_ip")
+			{
+				// return "not pointing to correct IP";
+				Domains::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	true,
+					'is_secured'	=>	false
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'A Record not exists or incorrect for domain: '. $domain_info->url);
+			}
+
+			if($domain_status == "ssl_enabled")
+			{
+				// return "now secured";
+				Domains::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.success', 'SSL Enabled for Domain: '. $domain_info->url);
+			}
+
+			if($domain_status == "already_secured")
+			{
+				// return "already secured";
+				Domains::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.success', 'Already Secured Domain: '. $domain_info->url);
+			}
+
+			if($domain_status == "something_went_wrong")
+			{
+				// return "something went wrong";
+				Domains::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	true,
+					'is_secured'	=>	false
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'Unable to Secure Domain: '. $domain_info->url);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			Domains::where('id', $id)->update([
+				'checked'		=>	true,
+				'has_error'		=>	true,
+				'is_secured'	=>	false
+			]);
+			return redirect($request->header('Referer'))->with('status.error', 'Unable to Secure Domain: '. $domain_info->url);
+		}
+	}
+
+	public function getAgencyDomainsCheck($id, Request $request)
+	{
+		
+		// check domain info exists in database
+		$domain_info = Site::where('id', $id)->first();
+		if($domain_info == null)
+		{
+			return redirect($request->header('Referer'))->with('status.error', 'Domain not found');
+		}
+
+		try
+		{
+			$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, "1.1.1.1");
+			$domain_status = $doamin_verification->verify();
+
+			if($domain_status == "managed_by_cloudflare")
+			{
+				// return "managed by cloudflare";
+				Site::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'Cloudflare Managed Domain: '. $domain_info->external_url);
+			}
+
+			if($domain_status == "not_pointing_to_ip")
+			{
+				// return "not pointing to correct IP";
+				Site::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	true,
+					'is_secured'	=>	false
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'A Record not exists or incorrect for domain: '. $domain_info->external_url);
+			}
+
+			if($domain_status == "ssl_enabled")
+			{
+				// return "now secured";
+				Site::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.success', 'SSL Enabled for Domain: '. $domain_info->external_url);
+			}
+
+			if($domain_status == "already_secured")
+			{
+				// return "already secured";
+				Site::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	false,
+					'is_secured'	=>	true
+				]);
+				return redirect($request->header('Referer'))->with('status.success', 'Already Secured Domain: '. $domain_info->external_url);
+			}
+
+			if($domain_status == "something_went_wrong")
+			{
+				// return "something went wrong";
+				Site::where('id', $id)->update([
+					'checked'		=>	true,
+					'has_error'		=>	true,
+					'is_secured'	=>	false
+				]);
+				return redirect($request->header('Referer'))->with('status.error', 'Unable to Secure Domain: '. $domain_info->external_url);
+			}
+		}
+		catch(\Exception $ex)
+		{
+			Site::where('id', $id)->update([
+				'checked'		=>	true,
+				'has_error'		=>	true,
+				'is_secured'	=>	false
+			]);
+			return redirect($request->header('Referer'))->with('status.error', 'Unable to Secure Domain: '. $domain_info->external_url);
+		}
+	}
+
+	public function getAgencyDomainsCheckAll(Request $request)
+	{
+		$domains = Site::where('checked', false)->orWhere('checked', null)->get();
+		
+		foreach($domains as $domain_info)
+		{
+			if($domain_info == null)
+			{
+				continue;
+			}
+
+			try
+			{
+				$doamin_verification = new \IsotopeKit\Utility\Domain($domain_info->external_url, "1.1.1.1");
+				
+				$domain_status = $doamin_verification->verify();
+
+				if($domain_status == "managed_by_cloudflare")
+				{
+					// return "managed by cloudflare";
+					Site::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+
+					continue;
+				}
+
+				if($domain_status == "not_pointing_to_ip")
+				{
+					// return "not pointing to correct IP";
+					Site::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	true,
+						'is_secured'	=>	false
+					]);
+
+					continue;
+				}
+
+				if($domain_status == "ssl_enabled")
+				{
+					// return "now secured";
+					Site::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+					
+					continue;
+				}
+
+				if($domain_status == "already_secured")
+				{
+					// return "already secured";
+					Site::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	false,
+						'is_secured'	=>	true
+					]);
+					
+					continue;
+				}
+
+				if($domain_status == "something_went_wrong")
+				{
+					// return "something went wrong";
+					Site::where('id', $domain_info->id)->update([
+						'checked'		=>	true,
+						'has_error'		=>	true,
+						'is_secured'	=>	false
+					]);
+					
+					continue;
+				}
+			}
+			catch(\Exception $ex)
+			{
+				continue;
+			}
+		}
+		
+		return redirect($request->header('Referer'))->with('status.success', 'All Domains checked');
 	}
 
 	public function getDomainsRefresh(Request $request)
 	{
-		return "all domains scheduled for refresh";
+		exec("sudo apache2ctl graceful");
+		// return "all new domains scheduled for activation";
+		return redirect($request->header('Referer'))->with('status.success', 'All new domains scheduled for activation');
 	}
 
 	// plans
