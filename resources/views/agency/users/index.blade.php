@@ -20,7 +20,7 @@
 					<h2 class="page-title">
 						Users
 					</h2>
-					<div class="text-muted mt-1">{{ sizeof($users) }} / {{ $total_users }} people</div>
+					<div class="text-muted mt-1">{{ $current_users }} / {{ $total_users }} people</div>
 				</div>
 				<!-- Page title actions -->
 				<div class="col-auto ms-auto d-print-none">

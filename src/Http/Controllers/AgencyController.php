@@ -61,6 +61,7 @@ class AgencyController extends Controller
 		$can_add_more = false;
 
 		$total_users = 0;
+		$current_users = 0;
 
 		// agency plan
 		$get_agency_levels = User_Role::where('user_id', Auth::id())->first();
@@ -73,7 +74,17 @@ class AgencyController extends Controller
 				// agency total users
 				$total_users = $get_agency_level_info->agency_members;
 				// agency current users
+
 				$current_users = User::where('created_by', Auth::id())->count();
+
+				// TODO
+				// use config paramter, instead of 101 for team
+				$team_users = User::join('user_role', 'users.id', '=', 'user_role.user_id')
+									->where('created_by', Auth::id())
+									->whereJsonContains('levels', '101')
+									->count();
+
+				$current_users = $current_users - $team_users;
 
 				if($total_users > $current_users)
 				{
@@ -85,7 +96,8 @@ class AgencyController extends Controller
 		return view('admin_panel::agency.users.index')
 				->with('users', $users)
 				->with('can_add_more', $can_add_more)
-				->with('total_users', $total_users);
+				->with('total_users', $total_users)
+				->with('current_users', $current_users);
 	}
 
 	// add user (post)
