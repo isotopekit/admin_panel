@@ -199,13 +199,19 @@ class AdminController extends Controller
 			if($user_plan != null)
 			{
 				$levels = json_decode($user_plan->levels);
-				$plan_id = $levels[1];
-
-				$user->plan_name = null;
-				$level_info = Levels::where('id', $plan_id)->first();
-				if($level_info)
+				if($levels != null)
 				{
-					$user->plan_name = $level_info->name;
+					if(array_key_exists(1, $levels))
+					{
+						$plan_id = $levels[1];
+
+						$user->plan_name = null;
+						$level_info = Levels::where('id', $plan_id)->first();
+						if($level_info)
+						{
+							$user->plan_name = $level_info->name;
+						}
+					}
 				}
 			}
 			
