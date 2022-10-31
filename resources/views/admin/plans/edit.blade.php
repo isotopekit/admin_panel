@@ -182,11 +182,14 @@
 											<input type="hidden" name="custom_properties_id[]" value="{{ $custom_property->id }}"/>
 											<?php
 												$item_val = 0;
-												$array_utility = new \IsotopeKit\Utility\ArrayUtils();
-												$search_in_array = $array_utility->objArraySearch(json_decode($plan->custom_properties), "id", $custom_property->id);
-												if($search_in_array)
+												if($plan->custom_properties != null)
 												{
-													$item_val = $search_in_array->value;
+													$array_utility = new \IsotopeKit\Utility\ArrayUtils();
+													$search_in_array = $array_utility->objArraySearch(json_decode($plan->custom_properties), "id", $custom_property->id);
+													if($search_in_array)
+													{
+														$item_val = $search_in_array->value;
+													}
 												}
 											?>
 											@if($custom_property->type == "int")
@@ -275,11 +278,14 @@
 											<input type="hidden" name="agency_custom_properties_id[]" value="{{ $custom_property->id }}"/>
 											<?php
 												$agency_item_val = 0;
-												$agency_array_utility = new \IsotopeKit\Utility\ArrayUtils();
-												$agency_search_in_array = $agency_array_utility->objArraySearch(json_decode($plan->agency_custom_properties), "id", $custom_property->id);
-												if($agency_search_in_array)
+												if($plan->agency_custom_properties != null)
 												{
-													$agency_item_val = $agency_search_in_array->value;
+													$agency_array_utility = new \IsotopeKit\Utility\ArrayUtils();
+													$agency_search_in_array = $agency_array_utility->objArraySearch(json_decode($plan->agency_custom_properties), "id", $custom_property->id);
+													if($agency_search_in_array)
+													{
+														$agency_item_val = $agency_search_in_array->value;
+													}
 												}
 											?>
 											@if($custom_property->type == "int")
