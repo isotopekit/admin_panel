@@ -63,11 +63,17 @@ class AdminController extends Controller
 			$fetch_roles = User_Role::where('user_id', '=', $user->id)->first();
 			if($fetch_roles)
 			{
-				$get_level_id = json_decode($fetch_roles->levels)[1];
-				$level_info = Levels::where('id', $get_level_id)->first();
-				if($level_info)
+				if(json_decode($fetch_roles->levels) != null && json_decode($fetch_roles->levels) != "")
 				{
-					$user->plan_name = $level_info->name;
+					if(array_key_exists(1, json_decode($fetch_roles->levels)))
+					{
+						$get_level_id = json_decode($fetch_roles->levels)[1];
+						$level_info = Levels::where('id', $get_level_id)->first();
+						if($level_info)
+						{
+							$user->plan_name = $level_info->name;
+						}
+					}
 				}
 			}
 
