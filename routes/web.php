@@ -52,6 +52,9 @@ Route::group(
 		Route::post('/users/change_status/{id}', [AdminController::class, 'postChangeUserStatus'])->name('post_admin_users_edit_status');
 		// user delete
 		Route::post('/users/delete/{id}', [AdminController::class, 'postDeleteUser'])->name('post_admin_users_delete');
+
+		// reset user
+		Route::post('/users/reset/{id}', [AdminController::class, 'postResetUser'])->name('post_admin_users_reset');
 		
 		
 		Route::get('/domains', [AdminController::class, 'getDomains'])->name('get_admin_domains_index');

@@ -22,5 +22,7 @@ return [
 	'account_list'	=>	[1],
 	'agency_training_link'	=>	'https://training.isotopekit.com',
 	'agency_guide_link'	=>	'https://guide.isotopekit.com',
-	'agency_guide_link_text'	=>	'Guide'
+	'agency_guide_link_text'	=>	'Guide',
+
+	'defaultLength'	=>	100
 ];
