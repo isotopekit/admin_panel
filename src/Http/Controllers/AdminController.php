@@ -427,6 +427,39 @@ class AdminController extends Controller
 		}
 	}
 
+	// change plans of multiple users
+	public function postPlanMultipleUser(Request $request)
+	{
+		try
+		{
+			$user_ids = $request->input("users_id");
+			$user_ids = explode(",", $user_ids);
+
+			foreach($user_ids as $id)
+			{
+				$user_role = User_Role::where('user_id', $id)->first();
+				if($user_role)
+				{
+					$user_role->levels = '["1",'.json_encode($request->input('new_plan_id')).']';
+					$user_role->save();
+				}
+				else
+				{
+					$user_role = User_Role::create([
+						'user_id'	=>	$id,
+						'levels'    => '["1",'.json_encode($request->input('new_plan_id')).']',
+					]);
+				}
+			}
+			
+			return redirect()->route('get_admin_users_index')->with('status.success', 'Users Plan Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
 	// access user (post)
 	public function postAccessUser(Request $request, $id)
 	{

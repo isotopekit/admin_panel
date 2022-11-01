@@ -27,6 +27,20 @@
 				<!-- Page title actions -->
 				<div class="col-auto ms-auto d-print-none">
 					<div class="d-flex">
+
+						<form id="change-plan-users" class="me-1" action="{{ route('post_admin_users_plan_multiple') }}" method="POST" style="display: none;">
+							{{ csrf_field() }}
+							<input type="text" name="users_id" style="display: none;" />
+							<div class="input-group">
+								<span class="input-group-text">Change Plan to</span>
+								<select name="new_plan_id" class="form-select" id="" style="min-width: 150px;">
+									@foreach($plans as $plan)
+										<option value="{{ $plan->id }}">{{ $plan->name }}</option>
+									@endforeach
+								</select>
+								<button class="btn btn-success" type="submit">Submit</button>
+							</div>
+						</form>
 					
 						<button style="display: none;" id="del_users_btn" class="btn btn-danger me-1">
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -475,12 +489,15 @@
 			if(_selected_users.length > 0)
 			{
 				$("#delete-users input[name=users_id]").val(_selected_users);
+				$("#change-plan-users input[name=users_id]").val(_selected_users);
 
 				$("#del_users_btn").show();
+				$("#change-plan-users").show();
 			}
 			else
 			{
 				$("#del_users_btn").hide();
+				$("#change-plan-users").hide();
 			}
 		});
 	</script>
