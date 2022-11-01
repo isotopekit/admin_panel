@@ -406,6 +406,27 @@ class AdminController extends Controller
 		}
 	}
 
+	// delete multiple user (post)
+	public function postDeleteMultipleUser(Request $request)
+	{
+		try
+		{
+			$user_ids = $request->input("users_id");
+			$user_ids = explode(",", $user_ids);
+
+			foreach($user_ids as $id)
+			{
+				User::where('id', $id)->delete();
+			}
+			
+			return redirect()->route('get_admin_users_index')->with('status.success', 'Users Deleted.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
 	// access user (post)
 	public function postAccessUser(Request $request, $id)
 	{
@@ -416,53 +437,60 @@ class AdminController extends Controller
 	// reset user (post)
 	public function postResetUser(Request $request, $id)
 	{
-		$user = User::where('id', $id)->first();
-
-		if($user)
+		try
 		{
-			$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
-			$new_password = $random_text_generator->get_random_value_in_string(12);
-		
-			$user->password = bcrypt($new_password);
-			$user->save();
+			$user = User::where('id', $id)->first();
 
-			$get_site_settings = Site::where('id', '1')->first();
-			if($get_site_settings != null)
+			if($user)
 			{
-				$site_settings = $get_site_settings;
-			}
-
-			$data = [
-				'email' =>  $user->email,
-				'name'  =>  $user->first_name,
-				'password'  =>  $new_password,
-				'app_name'	=>	$site_settings->name,
-				'app_domain'	=>	$site_settings->external_url
-			];
-
-			$emails_to = array(
-				'email'	=> $user->email,
-				'name'	=> $user->first_name,
-				'subject'	=>	config('isotopekit_admin.mail_subject')
-			);
-
-			Config::set('mail.encryption',$site_settings->encryption);
-			Config::set('mail.host', $site_settings->host);
-			Config::set('mail.port', $site_settings->port);
-			Config::set('mail.username', $site_settings->username);
-			Config::set('mail.password', $site_settings->password);
-			Config::set('mail.from',  ['address' => $site_settings->from_address , 'name' => $site_settings->from_name]);
+				$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
+				$new_password = $random_text_generator->get_random_value_in_string(12);
 			
-			Mail::send('admin_panel::emails.welcome', $data, function($message) use ($emails_to)
-			{
-				$message->to($emails_to['email'], $emails_to['name'])->subject($emails_to['subject']);
-			});
+				$user->password = bcrypt($new_password);
+				$user->save();
 
-			return redirect('/admin/users')->with('status.success', 'Email with credentials sent.');
+				$get_site_settings = Site::where('id', '1')->first();
+				if($get_site_settings != null)
+				{
+					$site_settings = $get_site_settings;
+				}
+
+				$data = [
+					'email' =>  $user->email,
+					'name'  =>  $user->first_name,
+					'password'  =>  $new_password,
+					'app_name'	=>	$site_settings->name,
+					'app_domain'	=>	$site_settings->external_url
+				];
+
+				$emails_to = array(
+					'email'	=> $user->email,
+					'name'	=> $user->first_name,
+					'subject'	=>	config('isotopekit_admin.mail_subject')
+				);
+
+				Config::set('mail.encryption',$site_settings->encryption);
+				Config::set('mail.host', $site_settings->host);
+				Config::set('mail.port', $site_settings->port);
+				Config::set('mail.username', $site_settings->username);
+				Config::set('mail.password', $site_settings->password);
+				Config::set('mail.from',  ['address' => $site_settings->from_address , 'name' => $site_settings->from_name]);
+				
+				Mail::send('admin_panel::emails.welcome', $data, function($message) use ($emails_to)
+				{
+					$message->to($emails_to['email'], $emails_to['name'])->subject($emails_to['subject']);
+				});
+
+				return redirect('/admin/users')->with('status.success', 'Email with credentials sent.');
+			}
+			else
+			{
+				return redirect()->route('get_admin_users_index')->with('status.error', 'User Not Found.');
+			}
 		}
-		else
+		catch(\Exception $ex)
 		{
-			return redirect()->route('get_admin_users_index')->with('status.error', 'User Not Found.');
+			return redirect()->route('get_admin_users_index')->with('status.error', 'Something went wrong, try again later');
 		}
 	}
 

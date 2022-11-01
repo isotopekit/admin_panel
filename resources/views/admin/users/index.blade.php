@@ -27,6 +27,22 @@
 				<!-- Page title actions -->
 				<div class="col-auto ms-auto d-print-none">
 					<div class="d-flex">
+					
+						<button style="display: none;" id="del_users_btn" class="btn btn-danger me-1">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+								<line x1="4" y1="7" x2="20" y2="7"></line>
+								<line x1="10" y1="11" x2="10" y2="17"></line>
+								<line x1="14" y1="11" x2="14" y2="17"></line>
+								<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+								<path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+							</svg>&nbsp;Delete Selected
+						</button>
+						<form id="delete-users" action="{{ route('post_admin_users_delete_multiple') }}" method="POST" style="display: none;">
+							<input type="text" name="users_id" />
+							{{ csrf_field() }}
+						</form>
+
 						<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-new-user">
 							<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
 								stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -76,8 +92,9 @@
 							<table class="table card-table table-vcenter table-mobile-md datatable">
 								<thead>
 									<tr>
-										<th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
-												aria-label="Select all users"></th>
+										<th class="w-1">
+											<!-- <input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all users"> -->
+										</th>
 										<th>
 											Name
 											<svg xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +118,7 @@
 									@foreach($users as $user)
 										<tr>
 											<td>
-												<input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select User">
+												<input class="form-check-input m-0 align-middle select_user" type="checkbox" aria-label="Select User" data-id="{{ $user->id }}">
 											</td>
 											<td>
 												<div class="d-flex py-1 align-items-center">
@@ -415,6 +432,12 @@
 	<script>
 		$('.datatable').DataTable({
 			// dom: '<"top"i>rt<"bottom"flp><"clear">'
+			'columnDefs': [{
+         		'targets': 0,
+         		'searchable':false,
+         		'orderable':false
+			}],
+			'order': [4, 'desc'],
 			"lengthMenu": [ [5, 10, 25, 50, 100, 500, 1000, 2000 -1], [5, 10, 25, 50, 100, 500, 1000, 2000, "All"] ],
 			"pageLength": {{ config('isotopekit_admin.defaultLength') }},
 			dom: '<"card-body"<"d-flex"<l><"ms-auto"f>>>rt<"card-body"<"d-flex"<i><"ms-auto"p>>><"clear">'
@@ -430,6 +453,47 @@
 			})
 			myModal.show();
 		}
+	</script>
+
+	<script>
+
+		var _selected_users = [];
+
+		$(".select_user").change(function(){
+			
+			var _id = $(this).data("id");
+
+			if($(this).is(":checked"))
+			{
+				_selected_users.push(_id);
+			}
+			else
+			{
+				_selected_users = _selected_users.filter(id => id !== _id);
+			}
+
+			if(_selected_users.length > 0)
+			{
+				$("#delete-users input[name=users_id]").val(_selected_users);
+
+				$("#del_users_btn").show();
+			}
+			else
+			{
+				$("#del_users_btn").hide();
+			}
+		});
+	</script>
+
+	<script>
+		$("#del_users_btn").click(function(){
+			var result = confirm("Want to delete?");
+			if(result)
+			{
+				event.preventDefault();
+				document.getElementById('delete-users').submit();
+			}
+		});
 	</script>
 
 @endsection
