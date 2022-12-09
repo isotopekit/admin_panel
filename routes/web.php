@@ -163,5 +163,8 @@ Route::group(
 
 		// agency settings password (post)
 		Route::post('/settings-password', [AgencyController::class, 'postSettingsPassword'])->name('post_agency_settings_password');
+
+		// agency settings customization (post)
+		Route::post('/settings-customization', [AgencyController::class, 'postSettingsCustomization'])->name('post_agency_settings_customization');
 	}
 );

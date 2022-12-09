@@ -659,6 +659,40 @@ class AgencyController extends Controller
 		}
 	}
 
+	// agency settings domain (post)
+	public function postSettingsCustomization(Request $request)
+	{
+		try
+		{
+			Site::where('agency_id', Auth::id())->update([
+				'navbar_link_color'		=>	$request->input('navbar_link_color'),
+				'navbar_active_color'	=>	$request->input('navbar_active_color'),
+
+				'primary_btn_bg_color'	=>	$request->input('primary_btn_bg_color'),
+				'primary_btn_txt_color'	=>	$request->input('primary_btn_txt_color'),
+				
+				'bg_color'				=>	$request->input('bg_color'),
+				'progress_bar_color'	=>	$request->input('progress_bar_color'),
+
+				'login_custom_css'		=>	$request->input('login_custom_css'),
+				'login_custom_js'		=>	$request->input('login_custom_js'),
+				'login_custom_header'	=>	$request->input('login_custom_header'),
+				'login_custom_footer'	=>	$request->input('login_custom_footer'),
+
+				'user_custom_css'		=>	$request->input('user_custom_css'),
+				'user_custom_js'		=>	$request->input('user_custom_js'),
+				'user_custom_header'	=>	$request->input('user_custom_header'),
+				'user_custom_footer'	=>	$request->input('user_custom_footer')
+			]);
+
+			return redirect()->route('get_agency_settings')->with('status.success', 'Customization Settings Updated.');
+		}
+		catch(\Exception $ex)
+		{
+			return redirect()->route('get_agency_settings')->with('status.error', 'Something Went Wrong');
+		}
+	}
+
 	// agency settings password (post)
 	public function postSettingsPassword(Request $request)
 	{

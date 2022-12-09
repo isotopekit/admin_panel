@@ -52,6 +52,15 @@
 						</svg>
 						Domain Setup
 					</a>
+					<a href="#customization" class="list-group-item list-group-item-action">
+						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-paint" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+							<rect x="5" y="3" width="14" height="6" rx="2"></rect>
+							<path d="M19 6h1a2 2 0 0 1 2 2a5 5 0 0 1 -5 5l-5 0v2"></path>
+							<rect x="10" y="15" width="4" height="6" rx="1"></rect>
+						</svg>
+						Customization
+					</a>
 					<a href="#security" class="list-group-item list-group-item-action">
 						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock" width="24"
 							height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -436,6 +445,295 @@
 								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
 								<div class="ms-auto">
 									<a href="#" class="btn btn-outline-warning" style="display: none;">Test Configuration</a>
+									<button type="submit" class="btn btn-success">Save Changes</button>
+								</div>
+
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div class="card mb-4" id="customization">
+					<div class="card-header">
+						<h3 class="card-title">Customization</h3>
+					</div>
+					<form action="{{ route('post_agency_settings_customization') }}" method="post">
+						{{ csrf_field() }}
+						<div class="card-body">
+							
+							<h4 class="card-title">Colors</h4>
+							
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Navbar Link Color</label>
+								<div class="col">
+									<input
+										type="color" required name="navbar_link_color"
+										@if($errors->has('navbar_link_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('navbar_link_color', $settings->navbar_link_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('navbar_link_color'))
+										<div class="invalid-feedback">{{ $errors->first('navbar_link_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Navbar Active Color</label>
+								<div class="col">
+									<input
+										type="color" required name="navbar_active_color"
+										@if($errors->has('navbar_active_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('navbar_active_color', $settings->navbar_active_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('navbar_active_color'))
+										<div class="invalid-feedback">{{ $errors->first('navbar_active_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Primary Button Background Color</label>
+								<div class="col">
+									<input
+										type="color" required name="primary_btn_bg_color"
+										@if($errors->has('primary_btn_bg_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('primary_btn_bg_color', $settings->primary_btn_bg_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('primary_btn_bg_color'))
+										<div class="invalid-feedback">{{ $errors->first('primary_btn_bg_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Primary Button Text Color</label>
+								<div class="col">
+									<input
+										type="color" required name="primary_btn_txt_color"
+										@if($errors->has('primary_btn_txt_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('primary_btn_txt_color', $settings->primary_btn_txt_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('primary_btn_txt_color'))
+										<div class="invalid-feedback">{{ $errors->first('primary_btn_txt_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Background Color</label>
+								<div class="col">
+									<input
+										type="color" required name="bg_color"
+										@if($errors->has('bg_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('bg_color', $settings->bg_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('bg_color'))
+										<div class="invalid-feedback">{{ $errors->first('bg_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Progress Bar Color</label>
+								<div class="col">
+									<input
+										type="color" required name="progress_bar_color"
+										@if($errors->has('progress_bar_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('progress_bar_color', $settings->progress_bar_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('progress_bar_color'))
+										<div class="invalid-feedback">{{ $errors->first('progress_bar_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<hr/>
+							<h4 class="card-title">Login Page</h4>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom CSS Code</label>
+								<div class="col">
+									<textarea
+										name="login_custom_css"
+										@if($errors->has('login_custom_css'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('login_custom_css', $settings->login_custom_css) }}</textarea>
+									@if($errors->has('login_custom_css'))
+										<div class="invalid-feedback">{{ $errors->first('login_custom_css') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Javascript Code</label>
+								<div class="col">
+									<textarea
+										name="login_custom_js"
+										@if($errors->has('login_custom_js'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('login_custom_js', $settings->login_custom_js) }}</textarea>
+									@if($errors->has('login_custom_js'))
+										<div class="invalid-feedback">{{ $errors->first('login_custom_js') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Text (header)</label>
+								<div class="col">
+									<textarea
+										name="login_custom_header"
+										@if($errors->has('login_custom_header'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('login_custom_header', $settings->login_custom_header) }}</textarea>
+									@if($errors->has('login_custom_header'))
+										<div class="invalid-feedback">{{ $errors->first('login_custom_header') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Text (footer)</label>
+								<div class="col">
+									<textarea
+										name="login_custom_footer"
+										@if($errors->has('login_custom_footer'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('login_custom_footer', $settings->login_custom_footer) }}</textarea>
+									@if($errors->has('login_custom_footer'))
+										<div class="invalid-feedback">{{ $errors->first('login_custom_footer') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<hr/>
+							<h4 class="card-title">User Dashboard</h4>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom CSS Code</label>
+								<div class="col">
+									<textarea
+										name="user_custom_css"
+										@if($errors->has('user_custom_css'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('user_custom_css', $settings->user_custom_css) }}</textarea>
+									@if($errors->has('user_custom_css'))
+										<div class="invalid-feedback">{{ $errors->first('user_custom_css') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Javascript Code</label>
+								<div class="col">
+									<textarea
+										name="user_custom_js"
+										@if($errors->has('user_custom_js'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('user_custom_js', $settings->user_custom_js) }}</textarea>
+									@if($errors->has('user_custom_js'))
+										<div class="invalid-feedback">{{ $errors->first('user_custom_js') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Text (header)</label>
+								<div class="col">
+									<textarea
+										name="user_custom_header"
+										@if($errors->has('user_custom_header'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('user_custom_header', $settings->user_custom_header) }}</textarea>
+									@if($errors->has('user_custom_header'))
+										<div class="invalid-feedback">{{ $errors->first('user_custom_header') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Custom Text (footer)</label>
+								<div class="col">
+									<textarea
+										name="user_custom_footer"
+										@if($errors->has('user_custom_footer'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										rows="4"
+									>{{ old('user_custom_footer', $settings->user_custom_footer) }}</textarea>
+									@if($errors->has('user_custom_footer'))
+										<div class="invalid-feedback">{{ $errors->first('user_custom_footer') }}</div>
+									@endif
+								</div>
+							</div>
+
+							
+
+						</div>
+						<div class="card-footer">
+							<div class="d-flex">
+								<a href="{{ route('get_agency_index') }}" class="btn btn-link">Cancel</a>
+								<div class="ms-auto">
 									<button type="submit" class="btn btn-success">Save Changes</button>
 								</div>
 

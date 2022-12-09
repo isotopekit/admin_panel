@@ -40,6 +40,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 					// you can add any number of migrations here
 				], 'migrations');
 			}
+
+			if (!class_exists('AddCustomizationToSiteSettingsTable')) {
+				$this->publishes([
+					__DIR__ . '/../database/migrations/add_customization_to_site_settings_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_add_customization_to_site_settings_table.php'),
+					// you can add any number of migrations here
+				], 'migrations');
+			}
 			
 			// publish config
 			$this->publishes([
