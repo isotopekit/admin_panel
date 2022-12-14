@@ -664,6 +664,23 @@ class AgencyController extends Controller
 	{
 		try
 		{
+			$file_to_upload_logo = $request->file('logo');
+			$logo_bg_image_path = null;
+
+			if($file_to_upload_logo)
+			{
+				$random_text_generator = new \IsotopeKit\Utility\RandomTextGenerator();
+				$random_name = $random_text_generator->get_random_value_in_string(10);
+
+                Storage::disk('uploads')->putFileAs('bg', $request->file('logo_bg_image'), $random_name);
+                $logo_bg_image_path = "/uploads/bg/".$random_name;
+			}
+			else
+			{
+				$site_settings = Site::where('agency_id', Auth::id())->first();
+                $logo_bg_image_path = $site_settings->logo_bg_image;
+			}
+
 			Site::where('agency_id', Auth::id())->update([
 				'navbar_link_color'		=>	$request->input('navbar_link_color'),
 				'navbar_active_color'	=>	$request->input('navbar_active_color'),
@@ -678,6 +695,8 @@ class AgencyController extends Controller
 				'login_custom_js'		=>	$request->input('login_custom_js'),
 				'login_custom_header'	=>	$request->input('login_custom_header'),
 				'login_custom_footer'	=>	$request->input('login_custom_footer'),
+				'login_logo_bg_color'	=>	$request->input('login_logo_bg_color'),
+				'logo_bg_image'			=>	$logo_bg_image_path,
 
 				'user_custom_css'		=>	$request->input('user_custom_css'),
 				'user_custom_js'		=>	$request->input('user_custom_js'),

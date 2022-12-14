@@ -38,6 +38,9 @@ class AddCustomizationToSiteSettingsTable extends Migration
 
 			$table->text('user_custom_header')->nullable();
 			$table->text('user_custom_footer')->nullable();
+
+			$table->string('login_logo_bg_color')->default('#727cf5')->nullable();
+			$table->string('logo_bg_image')->nullable();
 		});
 
 	}
@@ -63,6 +66,9 @@ class AddCustomizationToSiteSettingsTable extends Migration
 			$table->dropColumn('user_custom_js');
 			$table->dropColumn('user_custom_header');
 			$table->dropColumn('user_custom_footer');
+
+			$table->dropColumn('login_logo_bg_color');
+			$table->dropColumn('logo_bg_image');
 		});
 	}
 }

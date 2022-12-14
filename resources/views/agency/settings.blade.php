@@ -457,7 +457,7 @@
 					<div class="card-header">
 						<h3 class="card-title">Customization</h3>
 					</div>
-					<form action="{{ route('post_agency_settings_customization') }}" method="post">
+					<form action="{{ route('post_agency_settings_customization') }}" method="post" enctype="multipart/form-data">
 						{{ csrf_field() }}
 						<div class="card-body">
 							
@@ -576,6 +576,37 @@
 									@endif
 								</div>
 							</div>
+
+							<div class="form-group mb-3 row">
+								<label for="" class="form-label col-12 col-sm-3 col-form-label">Login Logo Background Color</label>
+								<div class="col">
+									<input
+										type="color" required name="login_logo_bg_color"
+										@if($errors->has('login_logo_bg_color'))
+											class="form-control is-invalid"
+										@else
+											class="form-control"
+										@endif
+										value="{{ old('login_logo_bg_color', $settings->login_logo_bg_color) }}"
+										style="max-width: 35px; padding: 2px;"
+									/>
+									@if($errors->has('login_logo_bg_color'))
+										<div class="invalid-feedback">{{ $errors->first('login_logo_bg_color') }}</div>
+									@endif
+								</div>
+							</div>
+
+							<div class="form-group mb-3 row">
+								<label class="form-label col-12 col-sm-3 col-form-label">Login Background Image</label>
+								<div class="col">
+									@if($settings->logo_bg_image)
+										<img src="{{ asset($settings->logo_bg_image) }}" class="img-fluid" style="height: 100px;"/>
+									@endif
+									<input type="file" class="form-control" name="logo_bg_image" placeholder="" />
+								</div>
+							</div>
+
+
 
 							<hr/>
 							<h4 class="card-title">Login Page</h4>
