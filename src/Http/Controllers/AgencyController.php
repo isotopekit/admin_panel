@@ -664,7 +664,7 @@ class AgencyController extends Controller
 	{
 		try
 		{
-			$file_to_upload_logo = $request->file('logo');
+			$file_to_upload_logo = $request->file('logo_bg_image');
 			$logo_bg_image_path = null;
 
 			if($file_to_upload_logo)
