@@ -4,7 +4,7 @@ Hi, {{ $name }}.
 <br><br>
 Here is your login access to the dashboard.
 <br><br>
-Login URL: <a href="{{ $app_domain }}/login">https://{{ $app_domain }}/login</a>
+Login URL: <a href="{{ $app_domain }}/login">{{ $app_domain }}/login</a>
 <br><br>
 Username: {{ $email }}
 <br><br>
