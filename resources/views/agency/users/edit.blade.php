@@ -308,7 +308,9 @@
 											}
 										?>
 										@if($custom_property->type == "int")
-											<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}" max="{!! json_decode(Auth::user()->levelInfo()['custom_properties'])[$key]->value !!}"/>
+											@if(array_key_exists($key, json_decode(Auth::user()->levelInfo()['custom_properties'])))
+												<input type="number" name="custom_properties_value[]" min="0" class="form-control" value="{{ $item_val }}" max="{!! json_decode(Auth::user()->levelInfo()['custom_properties'])[$key]->value !!}"/>
+											@endif
 										@else
 											<select name="custom_properties_value[]" class="form-control">
 												<option value="0" @if($item_val == 0) selected @endif>No</option>
