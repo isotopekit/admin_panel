@@ -353,11 +353,14 @@ class AgencyController extends Controller
 				$custom_properties_id = $request->input('custom_properties_id');
 				$custom_properties_value = $request->input('custom_properties_value');
 				foreach ($custom_properties_id as $key => $val) {
-					$item = [
-						"id"	=>	$val,
-						"value"	=>	$custom_properties_value[$key]
-					];
-					array_push($custom_property, $item);
+					if(array_key_exists($key, $custom_properties_value))
+					{
+						$item = [
+							"id"	=>	$val,
+							"value"	=>	$custom_properties_value[$key]
+						];
+						array_push($custom_property, $item);
+					}
 				}
 
 				User::where('id', $id)->update([	
